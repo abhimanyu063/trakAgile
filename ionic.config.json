@@ -1,0 +1,7 @@
+{
+  "name": "trakAgile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
