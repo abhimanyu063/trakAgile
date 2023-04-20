@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>User Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+  <ion-list style="margin-top:20px">
+    <ion-item>
+      <ion-icon name="person-outline" color="warning"></ion-icon>
+      <ion-input placeholder="Name"></ion-input>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.['required']">
+        *
+      </span> -->
+    </ion-item>
+    <ion-item>
+      <ion-icon name="phone-portrait-outline" size="medium" color="warning"></ion-icon>
+      <ion-input placeholder="Mobile"></ion-input>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.mobile.errors?.['required']">
+        *
+      </span> -->
+    </ion-item>
+    <ion-item>
+      <ion-icon name="lock-closed-outline" size="medium" color="warning"></ion-icon>
+      <ion-input placeholder="Password" type="password"></ion-input>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.['required']">
+        *
+      </span> -->
+    </ion-item>
+    <ion-item>
+      <ion-icon name="lock-closed-outline" size="medium" color="warning"></ion-icon>
+      <ion-input placeholder="Re-enter Password" type="password"></ion-input>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.['required']">
+        *
+      </span> -->
+    </ion-item>
+  </ion-list>
+  <div class="sign-in-button">
+    <ion-button type="submit" color="primary" shape="round"  size="medium" expand="block">
+      Register
+    </ion-button>
+  </div>
+</form>
+<!-- <div style="align-items: center; text-align: center;" *ngIf="isRegisterClicked">
+  <ion-spinner color="secondary"></ion-spinner>
+</div> -->
+
+</ion-content>

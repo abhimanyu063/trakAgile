@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>User Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+  <ion-list style="margin-top:200px">
+    <ion-item>
+      <ion-icon name="phone-portrait-outline" size="medium" color="warning"></ion-icon>
+      <ion-input placeholder="User Name"></ion-input>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.mobile.errors?.['required']">
+        *
+      </span> -->
+    </ion-item>
+    <ion-item>
+      <ion-icon name="lock-closed-outline" size="medium" color="warning"></ion-icon>
+      <ion-input placeholder="Password" type="password"></ion-input>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.['required']">
+        *
+      </span> -->
+    </ion-item>
+  </ion-list>
+  <div class="sign-in-button">
+    <ion-button type="submit" color="primary" shape="round"  size="medium" expand="block" (click)="onLoginClick()">
+      Login
+    </ion-button>
+  </div>
+</form>
+
+</ion-content>
+

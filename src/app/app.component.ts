@@ -11,12 +11,11 @@ import { IonicModule } from '@ionic/angular';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'My Request', url: '/MyRequest', icon: 'mail' },
+    { title: 'My Sites', url: '/folder/outbox', icon: 'paper-plane' },
+    { title: 'Change Password', url: '/folder/favorites', icon: 'heart' },
+    { title: 'About App', url: '/folder/archived', icon: 'archive' },
+    { title: 'Logout', url: '/folder/trash', icon: 'trash' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor() {}

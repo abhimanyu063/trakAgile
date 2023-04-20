@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button defaultHref=""></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-button expand="block" (click)="onTripStarted()">
+    Start Trip
+  </ion-button>
+  <div *ngIf="isTripStarted">
+  <ion-button expand="block">
+    Add Site
+  </ion-button>
+</div>
+</ion-content>
