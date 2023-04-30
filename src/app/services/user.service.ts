@@ -3,7 +3,7 @@ import { ApiHttpService } from "./ApiHttpService.services";
 import { AppConfig } from "../appconfig";
 
 @Injectable()
-export class CustomerService {
+export class UserService {
     isSuccess: boolean;
     constructor(private injector: Injector) {
 
@@ -14,6 +14,6 @@ export class CustomerService {
     }
     validateCustomer(data: any): any {
         const apiService = this.injector.get(ApiHttpService);
-        return apiService.post(AppConfig.apiBaseUrl + "customers/validateAndGetCustomer", data).toPromise();
+        return apiService.post(AppConfig.apiBaseUrl + "users/validateAndGetUser", data);
     }
 }

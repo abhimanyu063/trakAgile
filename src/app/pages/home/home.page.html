@@ -3,17 +3,26 @@
     <ion-buttons slot="start">
       <ion-menu-button defaultHref=""></ion-menu-button>
     </ion-buttons>
-    <ion-title>Welcome</ion-title>
+    <ion-title>Welcome, {{userName}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button expand="block" (click)="onTripStarted()">
+
+  <ion-button expand="block" (click)="onTripStarted()" *ngIf="!isTripStarted">
     Start Trip
   </ion-button>
   <div *ngIf="isTripStarted">
-  <ion-button expand="block">
-    Add Site
-  </ion-button>
-</div>
+    <app-add-site></app-add-site>
+    <div *ngIf="isSiteAdded">
+      <app-workflow></app-workflow>
+    </div>
+  </div>
+  <ion-alert
+  [isOpen]="isTripStarted"
+  header="Alert"
+  subHeader="Important message"
+  message="Trip Started Successfully"
+  [buttons]="alertButtons"
+></ion-alert>
 </ion-content>

@@ -1,0 +1,22 @@
+<div>
+  <form [formGroup]="formWorkflow" (ngSubmit)="onSaveWorkflow()">
+    <div class="input-container c1">
+      <ion-select label="Work Type" label-placement="floating" fill="outline" formControlName="workTypeID">
+        <ion-select-option *ngFor="let workType of workTypes"
+          [value]="workType.workTypeId">{{workType.workTypeName}}</ion-select-option>
+      </ion-select>
+    </div>
+    <div class="input-container c1">
+      <ion-input label="Document Description" label-placement="floating" fill="outline"
+        placeholder="Document Description" formControlName="documentDescription"></ion-input>
+    </div>
+    <div class="input-container c1">
+      <ion-input label="Upload Document" type="file" label-placement="floating" fill="outline" placeholder="Upload"
+        formControlName="uploadDocument" (change)="onFileChange($event)"></ion-input>
+    </div>
+    <div>
+      <ion-button type="submit">Submit</ion-button>
+      <ion-button type="button">Report Site</ion-button>
+    </div>
+  </form>
+</div>

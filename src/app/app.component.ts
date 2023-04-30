@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { SharedService } from './services/shared.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule],
+  providers:[]
 })
 export class AppComponent {
   public appPages = [
@@ -18,5 +20,7 @@ export class AppComponent {
     { title: 'Logout', url: '/folder/trash', icon: 'trash' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  constructor() {
+  }
+
 }
