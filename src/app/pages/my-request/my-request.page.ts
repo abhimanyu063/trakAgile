@@ -7,6 +7,8 @@ import { RequestService } from 'src/app/services/request.service';
 import { ApiHttpService } from 'src/app/services/ApiHttpService.services';
 import { HttpClientModule } from '@angular/common/http';
 import { requestModel } from 'src/app/models/request.model';
+import { SharedService } from 'src/app/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-request',
@@ -15,21 +17,23 @@ import { requestModel } from 'src/app/models/request.model';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RequestComponent, HttpClientModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [RequestService, ApiHttpService]
+  providers: [RequestService, ApiHttpService, SharedService]
 })
 export class MyRequestPage implements OnInit {
   requests: Array<requestModel> = new Array<requestModel>();
+  userId:Number=0;
 
-  constructor(private requestService: RequestService) { }
+  constructor(private requestService: RequestService, private sharedService:SharedService, private router:Router) { }
 
   ngOnInit() {
-    this.onGetRequests();
+    this.userId=Number(this.sharedService.getUserId());
+    this.onGetRequests(this.userId);
   }
   onRequestAdd() {
-
+    this.router.navigate(['/add-request']);
   }
-  onGetRequests() {
-    this.requestService.getRequests(1).subscribe((response: any) => {
+  onGetRequests(userId:Number) {
+    this.requestService.getRequests(userId).subscribe((response: any) => {
       response.data.forEach((element: any) => {
         this.requests.push({
           approvedByUserId: element.approvedByUserId,
