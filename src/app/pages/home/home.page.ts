@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +17,12 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
   }
-  onTripStarted(){
+  async onTripStarted(){
     this.isTripStarted=true;
+    const coordinates=await Geolocation.getCurrentPosition().then((position)=>{
+      console.log(position);
+    });
+    
   }
 
 }
