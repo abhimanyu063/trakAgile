@@ -32,6 +32,7 @@ export class HomePage implements OnInit {
   userId:Number=0
   public alertButtons = ['OK'];
   isSiteAdded:boolean=false;
+  tripId:Number;
   
   constructor(private tripService:TripService, private sharedService:SharedService) { }
 
@@ -41,7 +42,23 @@ export class HomePage implements OnInit {
   }
   async onTripStarted(){
     let tripObject={
-      userID:this.userId,
+      userId:this.userId,
+      isTripStarted:1,
+      isTripEnded:0,
+      isWorkCompleted:0,
+      latitude:10.466464,
+      longitude:10.466464,
+    }
+    let response=await this.tripService.addTrip(tripObject);
+    this.tripId=response.data.insertId;
+    this.isTripStarted=true;
+    // const coordinates=await Geolocation.getCurrentPosition().then((position)=>{
+    //   console.log(position);
+    // });
+  }
+  async onTripEnded(){
+    let tripObject={
+      userId:this.userId,
       isTripStarted:1,
       isTripEnded:0,
       isWorkCompleted:0,
@@ -53,8 +70,9 @@ export class HomePage implements OnInit {
     // const coordinates=await Geolocation.getCurrentPosition().then((position)=>{
     //   console.log(position);
     // });
-
-    
   }
-
+  onSiteAdded(event:any)
+  {
+    this.isSiteAdded=event;
+  }
 }

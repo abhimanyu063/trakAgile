@@ -6,10 +6,14 @@ import { AppConfig } from "../appconfig";
 export class SiteService{
     constructor(private injector: Injector)
     {
-
     }
     addSite(data: any): any {
         const apiService = this.injector.get(ApiHttpService);
         return apiService.post(AppConfig.apiBaseUrl + "sites/addSite", data).toPromise();
+    }
+    getSites(userId:Number):any
+    {
+        const apiService = this.injector.get(ApiHttpService);
+        return apiService.get(AppConfig.apiBaseUrl + "sites/getSitesByUserId/"+userId+"");
     }
 }

@@ -1,0 +1,11 @@
+ion-card {
+    width:95%;
+    padding: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto;
+    background: rgb(233,235,241);
+    background: linear-gradient(180deg, rgba(233,235,241,1) 0%, rgba(236,204,83,0.6390756986388305) 99%); 
+  }
+  .card .list .item {
+    border-bottom: 1px solid green;
+  }

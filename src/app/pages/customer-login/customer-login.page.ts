@@ -14,13 +14,13 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./customer-login.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, HttpClientModule],
-  providers:[UserService, ApiHttpService, SharedService]
+  providers: [UserService, ApiHttpService, SharedService]
 })
 export class CustomerLoginPage implements OnInit {
   mobile: string = 'testing';
   password: string = 'testing'
 
-  constructor(private router: Router, private userService: UserService, private sharedService:SharedService) { }
+  constructor(private router: Router, private userService: UserService, private sharedService: SharedService) { }
 
   ngOnInit() {
   }
@@ -35,11 +35,10 @@ export class CustomerLoginPage implements OnInit {
     console.log(request);
     var response = await this.userService.validateCustomer(request).toPromise();
     console.log(response);
-    if(response.success)
-    {
+    if (response.success) {
       this.sharedService.setUserId(response.data.userId);
-    this.sharedService.setUserName(response.data.userName);
-    this.sharedService.setName(response.data.name);
+      this.sharedService.setUserName(response.data.userName);
+      this.sharedService.setName(response.data.name);
     }
     console.log(response);
     this.router.navigate(['/home']);

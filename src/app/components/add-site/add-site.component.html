@@ -19,13 +19,13 @@
     </div>
     <div class="input-container c1">
       <ion-select label="Site Type" label-placement="floating" fill="outline"
-      formControlName="sitetypeID">
+      formControlName="siteTypeId">
       <ion-select-option *ngFor="let siteType of siteTypes" [value]="siteType.siteTypeId">{{siteType.siteTypeDescription}}</ion-select-option>
       </ion-select>
     </div>
     <div class="input-container c1">
       <ion-input label="Village" label-placement="floating" fill="outline" placeholder="Site" 
-      formControlName="siteVillegeName"></ion-input>
+      formControlName="siteVillageName"></ion-input>
     </div>
     <div>
       <ion-button type="submit">Add Site</ion-button>

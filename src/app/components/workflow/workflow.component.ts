@@ -22,7 +22,7 @@ export class WorkflowComponent  implements OnInit {
 
   ngOnInit() {
     this.formWorkflow=this.formBuilder.group({
-      workTypeID:[''],
+      workTypeId:[''],
       documentDescription:[''],
       uploadDocument:[''],
       isSiteReportedIssue:true,

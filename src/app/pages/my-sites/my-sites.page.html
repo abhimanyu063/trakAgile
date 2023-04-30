@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>MySites</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref=""></ion-back-button>
+    </ion-buttons>
+      <ion-title>My Sites</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">MySites</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div *ngFor="let site of sites">
+    <app-site [siteModel]="site"></app-site>
+  </div>
 </ion-content>
