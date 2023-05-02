@@ -21,8 +21,10 @@ export class AddRequestPage implements OnInit {
   requestForm: FormGroup;
   userId:Number=0;
   requestTypes:any[];
-  public dateValue:any;
-  @ViewChild("datetime") datetime:IonDatetime
+  dateValue:Date;
+  @ViewChild("datetime") datetime:IonDatetime;
+  isPopoverOpen:boolean=false;
+  requestDate:any;
 
   constructor(private formBuilder: FormBuilder, private sharedService:SharedService, private requestTypeService:RequestTypeService, private requestService:RequestService, private router:Router) { }
 
@@ -32,16 +34,26 @@ export class AddRequestPage implements OnInit {
       requestComment: [''],
       requestTypeId: [''],
       userId: this.userId,
-      requestDate: "2023-05-20",
+      requestDate: [this.requestDate],
     });
     this.onGetAllRequestTypes();
   }
   async onRequestAdd() {
-    const response=await this.requestService.addRequest(this.requestForm.value);    
+    let request={
+      requestComment: this.requestForm.value.requestComment,
+      requestTypeId: this.requestForm.value.requestTypeId,
+      userId: this.userId,
+      requestDate: this.requestDate
+    }
+    const response=await this.requestService.addRequest(request);    
     if(response.success)
     {
       this.router.navigate(['/my-request']);
     }
+  }
+  checkVal(event:any)
+  {
+    console.log(event)
   }
   onGetAllRequestTypes()
   {
@@ -51,12 +63,16 @@ export class AddRequestPage implements OnInit {
   }
   onDateSelect(event:any)
   {
-    console.log(this.dateValue);
+    this.isPopoverOpen=false;
   }
-  dateTimeUpdated()
+  setPreferredDate(value:any)
   {
-    
-    
+    this.requestDate=value;
+    console.log(value);
+  }
+  onRequestDateClicked()
+  { 
+    this.isPopoverOpen=true;
   }
 
 }
