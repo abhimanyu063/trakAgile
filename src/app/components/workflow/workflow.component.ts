@@ -32,7 +32,14 @@ export class WorkflowComponent  implements OnInit {
   }
   async onSaveWorkflow()
   {
-    let response=await this.workflowService.saveWorkflow(this.formWorkflow.value).toPromise();
+    let request= new FormData();
+    request.append("docPath", this.file, this.file.name);
+    request.append("workTypeId", this.formWorkflow.value.workTypeId);
+    request.append("documentDescription", this.formWorkflow.value.documentDescription);
+    request.append("isSiteReportedIssue", "0");
+    request.append("isWorkCompleted", "1");
+    
+    let response=await this.workflowService.saveWorkflow(request).toPromise();
     console.log(response);
 
   }

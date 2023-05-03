@@ -1,7 +1,7 @@
 <div>
   <form [formGroup]="formWorkflow" (ngSubmit)="onSaveWorkflow()">
     <div class="input-container c1">
-      <ion-select label="Work Type" label-placement="floating" fill="outline" formControlName="workTypeID">
+      <ion-select label="Work Type" label-placement="floating" fill="outline" formControlName="workTypeId">
         <ion-select-option *ngFor="let workType of workTypes"
           [value]="workType.workTypeId">{{workType.workTypeName}}</ion-select-option>
       </ion-select>

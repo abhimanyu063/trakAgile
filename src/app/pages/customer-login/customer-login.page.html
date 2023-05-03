@@ -5,26 +5,26 @@
 </ion-header>
 
 <ion-content>
-  <form>
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginClick()">
     <ion-img src="/assets/icon/trakAgile_logo.jpeg" style="height: 150px; width: 200px; margin-left: auto; margin-right: auto;"></ion-img>
   <ion-list style="margin: top 0px">
     <ion-item>
       <ion-icon name="phone-portrait-outline" size="medium" color="warning"></ion-icon>
-      <ion-input placeholder="User Name"></ion-input>
-      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.mobile.errors?.['required']">
+      <ion-input placeholder="User Name" formControlName="userName"></ion-input>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl?.['userName']?.errors?.['required']">
         *
-      </span> -->
+      </span>
     </ion-item>
     <ion-item>
       <ion-icon name="lock-closed-outline" size="medium" color="warning"></ion-icon>
-      <ion-input placeholder="Password" type="password"></ion-input>
-      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.['required']">
+      <ion-input placeholder="Password" type="password" formControlName="password"></ion-input>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl?.['userName']?.errors?.['required']">
         *
-      </span> --> 
+      </span>
     </ion-item>
   </ion-list>
   <div class="sign-in-button">
-    <ion-button type="submit" color="primary" shape="round"  size="medium" expand="block" (click)="onLoginClick()">
+    <ion-button type="submit" color="primary" shape="round"  size="medium" expand="block">
       Login
     </ion-button>
   </div>
