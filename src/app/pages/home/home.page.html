@@ -16,17 +16,17 @@
     <app-add-site (onSiteAdded)="onSiteAdded($event)" 
     *ngIf="!isSiteAdded" [tripId]="tripId"></app-add-site>
     <div *ngIf="isSiteAdded">
-      <app-workflow></app-workflow>
-      <ion-button expand="block" (click)="onTripEnded()" *ngIf="!isTripStarted">
-        End Trip
-      </ion-button>
+      <app-workflow (onWorkCompleted)="onWorkCompleted($event)" ></app-workflow>
     </div>
+    <ion-button expand="block" (click)="onTripEnded()" *ngIf="isWorkCompleted">
+      End Trip
+    </ion-button>
   </div>
   <ion-alert
   [isOpen]="isTripStarted"
   header="Alert"
   subHeader="Important message"
-  message="Trip Started Successfully"
+  message={{message}}
   [buttons]="alertButtons"
 ></ion-alert>
 </ion-content>

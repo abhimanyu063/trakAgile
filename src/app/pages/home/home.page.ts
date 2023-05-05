@@ -15,6 +15,9 @@ import { WorkflowComponent } from 'src/app/components/workflow/workflow.componen
 import { WorkTypeService } from 'src/app/services/worktype.service';
 import { WorkflowService } from 'src/app/services/workflow.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { tripModel } from 'src/app/models/trip.model';
+import { AppConfig } from 'src/app/appconfig';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -22,57 +25,91 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, HttpClientModule, AddSiteComponent, WorkflowComponent],
-  providers:[TripService, ApiHttpService, SiteService, DistrictService, SiteTypeService, WorkTypeService, WorkflowService, SharedService],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  providers: [TripService, ApiHttpService, SiteService, DistrictService, SiteTypeService, WorkTypeService, WorkflowService, SharedService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
 export class HomePage implements OnInit {
-  isTripStarted: boolean=false;
-  userName:string=''
-  userId:Number=0
+  isTripStarted: boolean = false;
+  userName: string = ''
+  userId: Number = 0
   public alertButtons = ['OK'];
-  isSiteAdded:boolean=false;
-  tripId:Number;
-  
-  constructor(private tripService:TripService, private sharedService:SharedService) { }
+  isSiteAdded: boolean = false;
+  tripId: Number;
+  message: string = '';
+  isWorkCompleted: boolean = false;
+  isProduction:boolean=false;
+
+  constructor(private tripService: TripService, private sharedService: SharedService, private router:Router) { }
 
   ngOnInit() {
-    this.userName=this.sharedService.getName();
-    this.userId=this.sharedService.getUserId();
+    this.isProduction=AppConfig.isProduction;
+    this.userName = this.sharedService.getName();
+    this.userId = this.sharedService.getUserId();
+    this.loadSite();
   }
-  async onTripStarted(){
-    let tripObject={
-      userId:this.userId,
-      isTripStarted:1,
-      isTripEnded:0,
-      isWorkCompleted:0,
-      latitude:10.466464,
-      longitude:10.466464,
+  async onTripStarted() {
+    let latitude ="";
+    let longitude ="";
+    if(this.isProduction)
+    {
+      const coordinates = await Geolocation.getCurrentPosition();
+      latitude= coordinates.coords.latitude.toString();
+      longitude= coordinates.coords.longitude.toString();
     }
-    let response=await this.tripService.addTrip(tripObject);
-    this.tripId=response.data.insertId;
-    this.isTripStarted=true;
-    // const coordinates=await Geolocation.getCurrentPosition().then((position)=>{
-    //   console.log(position);
-    // });
-  }
-  async onTripEnded(){
-    let tripObject={
-      userId:this.userId,
-      isTripStarted:1,
-      isTripEnded:0,
-      isWorkCompleted:0,
-      latitude:10.466464,
-      longitude:10.466464,
+    let tripObject = {
+      userId: this.userId,
+      isTripStarted: 1,
+      isTripEnded: 0,
+      isWorkCompleted: 0,
+      latitude:latitude,
+      longitude:longitude
     }
-    let response=await this.tripService.addTrip(tripObject);
-    this.isTripStarted=true;
-    // const coordinates=await Geolocation.getCurrentPosition().then((position)=>{
-    //   console.log(position);
-    // });
+    let response = await this.tripService.addTrip(tripObject);
+    this.tripId = response.data.insertId;
+    this.isTripStarted = true;
+    this.message = "Trip Started Successfully";
   }
-  onSiteAdded(event:any)
-  {
-    this.isSiteAdded=event;
+  async onTripEnded() {
+    let latitude ="";
+    let longitude ="";
+    if(this.isProduction)
+    {
+      const coordinates = await Geolocation.getCurrentPosition();
+      latitude= coordinates.coords.latitude.toString();
+      longitude= coordinates.coords.longitude.toString();
+    }
+    let tripObject = {
+      tripId: this.tripId,
+      isTripEnded: 1,
+      isWorkCompleted: 1,
+      endLatitude: latitude,
+      endLongitude: longitude,
+    }
+    let response = await this.tripService.endTrip(tripObject);
+      console.log("testing");
+      this.router.navigate(['/home']);
+      this.isTripStarted = false;
+      
+    
+  }
+  onSiteAdded(event: any) {
+    this.isSiteAdded = event;
+  }
+  onWorkCompleted(event: any) {
+    this.isWorkCompleted = true;
+  }
+  loadSite() {
+    let trips:Array<tripModel>;
+    this.tripService.getTripById(this.userId).subscribe((response: any) => {
+      trips=response.data;
+      let filteredTrips=trips.filter(x=>x.isTripEnded==false);
+      if(filteredTrips && filteredTrips.length>0)
+      {
+        this.isTripStarted=true;
+        this.tripId=filteredTrips[filteredTrips.length-1].tripId;
+        this.message="Trip already started, please add site.";
+      }
+    });
   }
 }

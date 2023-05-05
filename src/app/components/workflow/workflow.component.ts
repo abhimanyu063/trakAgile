@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { WorkflowService } from 'src/app/services/workflow.service';
@@ -17,6 +17,7 @@ export class WorkflowComponent  implements OnInit {
   formWorkflow:FormGroup;
   workTypes:any=[];
   file:File
+  @Output() onWorkCompleted:EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private formBuilder:FormBuilder, private workTypeService:WorkTypeService, private workflowService:WorkflowService) { }
 
@@ -40,8 +41,7 @@ export class WorkflowComponent  implements OnInit {
     request.append("isWorkCompleted", "1");
     
     let response=await this.workflowService.saveWorkflow(request).toPromise();
-    console.log(response);
-
+    this.onWorkCompleted.emit(true);
   }
   async onFileChange(fileChangeEvent:any)
   {

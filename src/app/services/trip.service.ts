@@ -12,4 +12,12 @@ export class TripService{
         const apiService = this.injector.get(ApiHttpService);
         return apiService.post(AppConfig.apiBaseUrl + "trips/addTrip", data).toPromise();
     }
+    endTrip(data: any): any {
+        const apiService = this.injector.get(ApiHttpService);
+        return apiService.post(AppConfig.apiBaseUrl + "trips/updateTrip", data).toPromise();
+    }
+    getTripById(userId: any): any {
+        const apiService = this.injector.get(ApiHttpService);
+        return apiService.get(AppConfig.apiBaseUrl + "trips/getTripsById/"+userId+"");
+    }
 }
