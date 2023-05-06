@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-button expand="block" (click)="onTripStarted()" *ngIf="!isTripStarted">
+  <ion-button color="primary" shape="round"  size="large" expand="block" (click)="onTripStarted()" *ngIf="!isTripStarted">
     Start Trip
   </ion-button>
   <div *ngIf="isTripStarted">
@@ -18,7 +18,7 @@
     <div *ngIf="isSiteAdded">
       <app-workflow (onWorkCompleted)="onWorkCompleted($event)" ></app-workflow>
     </div>
-    <ion-button expand="block" (click)="onTripEnded()" *ngIf="isWorkCompleted">
+    <ion-button color="primary" shape="round"  size="large" expand="block" (click)="onTripEnded()" *ngIf="isWorkCompleted">
       End Trip
     </ion-button>
   </div>

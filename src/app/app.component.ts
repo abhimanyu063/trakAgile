@@ -17,7 +17,7 @@ export class AppComponent {
     { title: 'My Sites', url: '/my-sites', icon: 'paper-plane' },
     { title: 'Change Password', url: '/folder/favorites', icon: 'heart' },
     { title: 'About App', url: '/folder/archived', icon: 'archive' },
-    { title: 'Logout', url: '/folder/trash', icon: 'trash' }
+    { title: 'Logout', url: '/customer-login', icon: 'trash' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor() {
