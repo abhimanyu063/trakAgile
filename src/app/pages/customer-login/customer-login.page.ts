@@ -15,29 +15,31 @@ import { ComponentsModule } from 'src/app/components/component.module';
   templateUrl: './customer-login.page.html',
   styleUrls: ['./customer-login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule, ComponentsModule ],
+  imports: [IonicModule, CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule, ComponentsModule],
   providers: [UserService, ApiHttpService, SharedService],
 })
 export class CustomerLoginPage implements OnInit {
-  public loginForm:FormGroup;
-  isSubmitted:boolean=false;
-  isInvalidLogin:boolean=false;
-  @ViewChild('confirmModal') confirmModal:DialogComponent;
-  constructor(private router: Router, private userService: UserService, private sharedService: SharedService, 
-    private formBuilder:FormBuilder, private modalCtrl:ModalController) { 
-      this.loginForm=this.formBuilder.group({
-        userName:['', Validators.required],
-        password:['', Validators.required]
-      });
-    }
+  public loginForm: FormGroup;
+  isSubmitted: boolean = false;
+  isInvalidLogin: boolean = false;
+  @ViewChild('confirmModal') confirmModal: DialogComponent;
+  constructor(private router: Router, private userService: UserService, private sharedService: SharedService,
+    private formBuilder: FormBuilder, private modalCtrl: ModalController) {
+    this.loginForm = this.formBuilder.group({
+      userName: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
   ngOnInit() {
-    
+    this.sharedService.setUserId('');
+    this.sharedService.setUserName('');
+    this.sharedService.setName('');
   }
   onNavigatetoRegistration() {
     this.router.navigate(['/customer-registration'])
   }
   async onLoginClick() {
-    this.isSubmitted=true;
+    this.isSubmitted = true;
     var response = await this.userService.validateCustomer(this.loginForm.value).toPromise();
     if (response.success) {
       this.sharedService.setUserId(response.data.userId);
@@ -45,8 +47,7 @@ export class CustomerLoginPage implements OnInit {
       this.sharedService.setName(response.data.name);
       this.router.navigate(['/home']);
     }
-    else
-    {
+    else {
       this.confirmModal.onOpenModal();
     }
   }

@@ -16,4 +16,9 @@ export class UserService {
         const apiService = this.injector.get(ApiHttpService);
         return apiService.post(AppConfig.apiBaseUrl + "users/validateAndGetUser", data);
     }
+    changePassword(data: any): any {
+        
+        const apiService = this.injector.get(ApiHttpService);
+        return apiService.post(AppConfig.apiBaseUrl + "users/changePassword", data).toPromise();
+    }
 }
