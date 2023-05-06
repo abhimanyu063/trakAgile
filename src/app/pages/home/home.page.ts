@@ -53,7 +53,7 @@ export class HomePage implements OnInit {
     let longitude ="";
     if(this.isProduction)
     {
-      const coordinates = await Geolocation.getCurrentPosition();
+      const coordinates = await Geolocation.getCurrentPosition({enableHighAccuracy:true, timeout:10000});
       latitude= coordinates.coords.latitude.toString();
       longitude= coordinates.coords.longitude.toString();
     }
@@ -75,7 +75,7 @@ export class HomePage implements OnInit {
     let longitude ="";
     if(this.isProduction)
     {
-      const coordinates = await Geolocation.getCurrentPosition();
+      const coordinates = await Geolocation.getCurrentPosition({enableHighAccuracy:true, timeout:10000});
       latitude= coordinates.coords.latitude.toString();
       longitude= coordinates.coords.longitude.toString();
     }
