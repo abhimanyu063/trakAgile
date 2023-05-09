@@ -2,10 +2,10 @@
   <ion-card-header style="margin:0px; padding:0px;">
     <ion-row>
       <ion-col col-lg-9>
-        <p style="margin-left:10px">Site <span>{{siteModel.siteName}} </span> </p>
+        <p style="margin-left:10px">Site : <span>{{siteModel.siteName}} </span> </p>
       </ion-col>
       <ion-col col-lg-3>
-        <p style="margin-left:10px">Date <span>{{siteModel.createdOn | date: 'dd-MM-yyyy'}} </span> </p>
+        <p style="margin-left:10px">Date : <span>{{siteModel.createdOn | date: 'dd-MM-yyyy'}} </span> </p>
       </ion-col>
     </ion-row>
   </ion-card-header>
@@ -24,6 +24,7 @@
     </ion-label>
   </ion-card-content>
   <ion-row style="margin-left:0px; padding:0px">
-    <h3 style="font-size:14px; margin-left:10px">Status : Completed </h3>
+    <h3 style="font-size:14px; margin-left:10px">Status : {{siteModel.isWorkCompleted?
+      'Completed':siteModel.isTripEnded ? 'Ended': 'Started'}} </h3>
   </ion-row>
 </ion-card>

@@ -19,32 +19,37 @@ import { SharedService } from 'src/app/services/shared.service';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class MySitesPage implements OnInit {
-  sites: Array<siteModel>= new Array<siteModel>;
-  userId:Number;
+  sites: Array<siteModel> = new Array<siteModel>;
+  userId: Number;
 
-  constructor(private siteService: SiteService, private sharedService:SharedService) { }
+  constructor(private siteService: SiteService, private sharedService: SharedService) { }
 
   ngOnInit() {
-    this.userId=this.sharedService.getUserId();
+    this.userId = this.sharedService.getUserId();
     this.getMySites(this.userId);
   }
-  getMySites(userId:Number) {
+  getMySites(userId: Number) {
     this.siteService.getSites(userId).subscribe((response: any) => {
-      response.data.forEach((element:any) => {
+      response.data.forEach((element: any) => {
         this.sites.push({
           siteName: element.siteName,
           siteTypeDescription: element.siteTypeDescription,
           siteVillageName: element.siteVillageName,
-          createdOn: element.createdOn,
           districtName: element.districtName,
           sitetypeId: element.siteTypeId,
           userId: element.userId,
-          latitude: element.latitude,
-          longitude: element.longitude,
           districtId: element.districtId,
           tripTypeId: element.tripTypeId,
           tripTypeDescription: element.tripTypeDescription,
-          tripId: element.tripId
+          tripId: element.tripId,
+          isTripStarted: element.isTripStarted,
+          isTripEnded: element.isTripEnded,
+          isWorkCompleted: element.isWorkCompleted,
+          latitude: element.latitude,
+          longitude: element.longitude,
+          endLatitude: element.endLatitude,
+          endLongitude: element.endLongitude,
+          createdOn: element.createdOn,
         });
       });
     });

@@ -9,24 +9,20 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-button color="primary" shape="round"  size="large" expand="block" (click)="onTripStarted()" *ngIf="!isTripStarted">
+  <ion-button color="primary" shape="round" size="large" expand="block" (click)="onTripStarted()"
+    *ngIf="!isTripStarted">
     Start Trip
   </ion-button>
   <div *ngIf="isTripStarted">
-    <app-add-site (onSiteAdded)="onSiteAdded($event)" 
-    *ngIf="!isSiteAdded" [tripId]="tripId"></app-add-site>
+    <app-add-site (onSiteAdded)="onSiteAdded($event)" *ngIf="!isSiteAdded" [tripId]="tripId"></app-add-site>
     <div *ngIf="isSiteAdded">
-      <app-workflow (onWorkCompleted)="onWorkCompleted($event)" ></app-workflow>
+      <app-workflow (onWorkCompleted)="onWorkCompleted($event)"></app-workflow>
     </div>
-    <ion-button color="primary" shape="round"  size="large" expand="block" (click)="onTripEnded()" *ngIf="isWorkCompleted">
+    <ion-button color="primary" shape="round" size="large" expand="block" (click)="onTripEnded()"
+      *ngIf="isWorkCompleted">
       End Trip
     </ion-button>
   </div>
-  <ion-alert
-  [isOpen]="isTripStarted"
-  header="Alert"
-  subHeader="Important message"
-  message={{message}}
-  [buttons]="alertButtons"
-></ion-alert>
+    <ion-toast [is-open]="isTripStarted" [duration]="3000" message={{message}} class="custom-toast"
+    [buttons]="toastButtons"></ion-toast>
 </ion-content>

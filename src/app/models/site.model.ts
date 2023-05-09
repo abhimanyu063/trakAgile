@@ -4,12 +4,17 @@ export class siteModel {
     sitetypeId: number
     siteVillageName: string
     userId: number
-    createdOn: Date
-    latitude: number
-    longitude: number
     districtId: Number
     districtName: string
     tripTypeId: Number
     tripTypeDescription: string
     tripId: number
+    isTripStarted: number
+    isTripEnded: number
+    isWorkCompleted: number
+    latitude: number
+    longitude: number
+    endLatitude: number
+    endLongitude: number
+    createdOn: Date
 }

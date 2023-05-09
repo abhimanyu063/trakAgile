@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { Geolocation } from '@capacitor/geolocation';
 import { TripService } from 'src/app/services/trip.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,37 +33,41 @@ export class HomePage implements OnInit {
   isTripStarted: boolean = false;
   userName: string = ''
   userId: Number = 0
-  public alertButtons = ['OK'];
+  public toastButtons = [
+    {
+      text: 'X',
+      role: 'cancel',
+    },
+  ];
   isSiteAdded: boolean = false;
   tripId: Number;
   message: string = '';
   isWorkCompleted: boolean = false;
-  isProduction:boolean=false;
+  isProduction: boolean = false;
 
-  constructor(private tripService: TripService, private sharedService: SharedService, private router:Router) { }
+  constructor(private tripService: TripService, private sharedService: SharedService, private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
-    this.isProduction=AppConfig.isProduction;
+    this.isProduction = AppConfig.isProduction;
     this.userName = this.sharedService.getName();
     this.userId = this.sharedService.getUserId();
     this.loadSite();
   }
   async onTripStarted() {
-    let latitude ="";
-    let longitude ="";
-    if(this.isProduction)
-    {
-      const coordinates = await Geolocation.getCurrentPosition({enableHighAccuracy:true, timeout:10000});
-      latitude= coordinates.coords.latitude.toString();
-      longitude= coordinates.coords.longitude.toString();
+    let latitude = "";
+    let longitude = "";
+    if (this.isProduction) {
+      const coordinates = await Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000 });
+      latitude = coordinates.coords.latitude.toString();
+      longitude = coordinates.coords.longitude.toString();
     }
     let tripObject = {
       userId: this.userId,
       isTripStarted: 1,
       isTripEnded: 0,
       isWorkCompleted: 0,
-      latitude:latitude,
-      longitude:longitude
+      latitude: latitude,
+      longitude: longitude
     }
     let response = await this.tripService.addTrip(tripObject);
     this.tripId = response.data.insertId;
@@ -71,13 +75,12 @@ export class HomePage implements OnInit {
     this.message = "Trip Started Successfully";
   }
   async onTripEnded() {
-    let latitude ="";
-    let longitude ="";
-    if(this.isProduction)
-    {
-      const coordinates = await Geolocation.getCurrentPosition({enableHighAccuracy:true, timeout:10000});
-      latitude= coordinates.coords.latitude.toString();
-      longitude= coordinates.coords.longitude.toString();
+    let latitude = "";
+    let longitude = "";
+    if (this.isProduction) {
+      const coordinates = await Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000 });
+      latitude = coordinates.coords.latitude.toString();
+      longitude = coordinates.coords.longitude.toString();
     }
     let tripObject = {
       tripId: this.tripId,
@@ -87,11 +90,11 @@ export class HomePage implements OnInit {
       endLongitude: longitude,
     }
     let response = await this.tripService.endTrip(tripObject);
-      console.log("testing");
-      this.router.navigate(['/home']);
-      this.isTripStarted = false;
-      
-    
+    console.log("testing");
+    this.router.navigate(['/home']);
+    this.isTripStarted = false;
+
+
   }
   onSiteAdded(event: any) {
     this.isSiteAdded = event;
@@ -100,16 +103,36 @@ export class HomePage implements OnInit {
     this.isWorkCompleted = true;
   }
   loadSite() {
-    let trips:Array<tripModel>;
+    let trips: Array<tripModel>;
     this.tripService.getTripById(this.userId).subscribe((response: any) => {
-      trips=response.data;
-      let filteredTrips=trips.filter(x=>x.isTripEnded==false);
-      if(filteredTrips && filteredTrips.length>0)
-      {
-        this.isTripStarted=true;
-        this.tripId=filteredTrips[filteredTrips.length-1].tripId;
-        this.message="Trip already started, please add site.";
+      trips = response.data;
+      let filteredTrips = trips.filter(x => x.isTripEnded == false);
+      if (filteredTrips && filteredTrips.length > 0) {
+        this.isTripStarted = true;
+        this.tripId = filteredTrips[filteredTrips.length - 1].tripId;
+        this.message = "Trip already started, please add site.";
+        this.displayToast();
       }
+    });
+  }
+  displayToast() {
+    this.toastController.create({
+      //header: 'Welcome!',
+      message: this.message,
+      position: 'bottom',
+      cssClass: 'toast-custom-class',
+      buttons: [
+        {
+          side: 'end',
+          text: 'Close',
+          role: 'cancel',
+          handler: () => {
+            console.log('');
+          }
+        }
+      ]
+    }).then((toast) => {
+      toast.present();
     });
   }
 }

@@ -1,11 +1,11 @@
 <ion-card>
-  <ion-card-header style="border-bottom:1px solid green; margin:0px; padding:0px;">
+  <ion-card-header style="margin:0px; padding:0px;">
     <ion-row>
       <ion-col col-lg-4>
-        <p style="margin-left:10px">Request# <span style="color:orange">{{request.requestId}} </span> </p>
+        <p style="margin-left:10px">Request# <span>{{request.requestId}} </span> </p>
       </ion-col>
       <ion-col col-lg-8>
-        <p style="margin-left:10px">Date <span style="color:orange">{{request.createdOn | date: 'dd-MM-yyyy'}} </span> </p>
+        <p style="margin-left:10px">Date : <span>{{request.createdOn | date: 'dd-MM-yyyy'}} </span> </p>
       </ion-col>
     </ion-row>
   </ion-card-header>
@@ -23,9 +23,9 @@
       </ion-row>
     </ion-label>
   </ion-card-content>
-  <ion-row style="border-top:1px solid green; margin-left:0px; padding:0px">
+  <ion-row style="margin-left:0px; padding:0px">
     <ion-col col-md-6>
-      <h3 style="font-size:14px; margin-left:10px">Is Approved : <span style="color:green">{{request.isApproved?'Yes':'No'}}</span></h3>
+      <h3 style="font-size:14px; margin-left:10px">Is Approved : <span>{{request.isApproved?'Yes':'No'}}</span></h3>
     </ion-col>
     <ion-col col-md-6>
       <h3 style="font-size:14px; margin-left:10px">Approved By : {{request.approvedByUserName}}</h3>
