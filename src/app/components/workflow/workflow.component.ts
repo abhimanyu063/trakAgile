@@ -45,9 +45,8 @@ export class WorkflowComponent  implements OnInit {
   }
   async onFileChange(fileChangeEvent:any)
   {
- 
+
     this.file=fileChangeEvent.target.files[0];
-    console.log(this.file);
   }
   async getAllWorkTypes()
   {
