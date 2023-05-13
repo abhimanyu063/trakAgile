@@ -10,7 +10,6 @@ import { AddSiteComponent } from 'src/app/components/add-site/add-site.component
 import { SiteService } from 'src/app/services/site.service';
 import { DistrictService } from 'src/app/services/district.service';
 import { SiteTypeService } from 'src/app/services/sitetype.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { WorkflowComponent } from 'src/app/components/workflow/workflow.component';
 import { WorkTypeService } from 'src/app/services/worktype.service';
 import { WorkflowService } from 'src/app/services/workflow.service';
@@ -90,7 +89,6 @@ export class HomePage implements OnInit {
       endLongitude: longitude,
     }
     let response = await this.tripService.endTrip(tripObject);
-    console.log("testing");
     this.router.navigate(['/home']);
     this.isTripStarted = false;
 
@@ -126,13 +124,13 @@ export class HomePage implements OnInit {
           side: 'end',
           text: 'Close',
           role: 'cancel',
-          handler: () => {
-            console.log('');
-          }
+          handler: () => { }
         }
       ]
     }).then((toast) => {
       toast.present();
+    }).then(() => {
+      setTimeout(() => this.toastController.dismiss(), AppConfig.toastDuration)
     });
   }
 }

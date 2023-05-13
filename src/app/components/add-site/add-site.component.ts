@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { siteModel } from 'src/app/models/site.model';
 import { DistrictService } from 'src/app/services/district.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SiteService } from 'src/app/services/site.service';
@@ -68,7 +67,6 @@ export class AddSiteComponent  implements OnInit {
   {
     this.siteTypeService.getAllSiteType().subscribe((response:any)=>{
       this.siteTypes=response.data;
-      console.log(this.siteTypes);
     });
   }
 }

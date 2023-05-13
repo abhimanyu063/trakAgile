@@ -7,6 +7,7 @@ import { ApiHttpService } from 'src/app/services/ApiHttpService.services';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { AppConfig } from 'src/app/appconfig';
 
 @Component({
   selector: 'app-change-password',
@@ -50,7 +51,6 @@ export class ChangePasswordPage implements OnInit {
         }
         const response = await this.userService.changePassword(payload);
         if (response.success) {
-          console.log(response)
           this.isAlertOpen = true;
           this.message = "Password changed successfully!!!";
         }
@@ -77,13 +77,13 @@ export class ChangePasswordPage implements OnInit {
           side: 'end',
           text: 'Close',
           role: 'cancel',
-          handler: () => {
-            console.log('');
-          }
+          handler: () => { }
         }
       ]
     }).then((toast) => {
       toast.present();
+    }).then(() => {
+      setTimeout(() => this.toastController.dismiss(), AppConfig.toastDuration)
     });
   }
 }
