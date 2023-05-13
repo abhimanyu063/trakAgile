@@ -12,6 +12,7 @@ export class siteModel {
     isTripStarted: number
     isTripEnded: number
     isWorkCompleted: number
+    isSiteReportedIssue: number
     latitude: number
     longitude: number
     endLatitude: number
