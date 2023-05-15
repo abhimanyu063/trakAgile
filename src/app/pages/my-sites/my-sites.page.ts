@@ -32,6 +32,7 @@ export class MySitesPage implements OnInit {
     this.siteService.getSites(userId).subscribe((response: any) => {
       response.data.forEach((element: any) => {
         this.sites.push({
+          siteId: element.siteId,
           siteName: element.siteName,
           siteTypeDescription: element.siteTypeDescription,
           siteVillageName: element.siteVillageName,

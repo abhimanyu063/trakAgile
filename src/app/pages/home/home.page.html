@@ -14,9 +14,9 @@
     Start Trip
   </ion-button>
   <div *ngIf="isTripStarted">
-    <app-add-site (onSiteAdded)="onSiteAdded($event)" *ngIf="!isSiteAdded" [tripId]="tripId"></app-add-site>
+    <app-add-site (onSiteAdded)="onSiteAdded($event)" (onSiteId)="onSiteId($event)" *ngIf="!isSiteAdded" [tripId]="tripId"></app-add-site>
     <div *ngIf="isSiteAdded">
-      <app-workflow (onWorkCompleted)="onWorkCompleted($event)"></app-workflow>
+      <app-workflow (onWorkCompleted)="onWorkCompleted($event)" [siteId]="siteId"></app-workflow>
     </div>
     <ion-button color="primary" shape="round" size="large" expand="block" (click)="onTripEnded()"
       *ngIf="isWorkCompleted">

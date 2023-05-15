@@ -1,4 +1,5 @@
 export class siteModel {
+    siteId: Number
     siteName: string
     siteTypeDescription: string
     sitetypeId: number
@@ -9,10 +10,10 @@ export class siteModel {
     tripTypeId: Number
     tripTypeDescription: string
     tripId: number
-    isTripStarted: number
-    isTripEnded: number
-    isWorkCompleted: number
-    isSiteReportedIssue: number
+    isTripStarted: boolean
+    isTripEnded: boolean
+    isWorkCompleted: boolean
+    isSiteReportedIssue: boolean
     latitude: number
     longitude: number
     endLatitude: number

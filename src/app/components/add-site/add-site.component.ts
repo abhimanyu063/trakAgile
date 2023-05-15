@@ -12,61 +12,60 @@ import { SiteTypeService } from 'src/app/services/sitetype.service';
   selector: 'app-add-site',
   templateUrl: './add-site.component.html',
   styleUrls: ['./add-site.component.scss'],
-  standalone:true,
-  imports:[IonicModule,ReactiveFormsModule, CommonModule], 
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  standalone: true,
+  imports: [IonicModule, ReactiveFormsModule, CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AddSiteComponent  implements OnInit {
-  siteForm:FormGroup;
-  districts:any=[];
-  siteTypes:any=[];
-  userId:Number;
-  @Output() onSiteAdded:EventEmitter<boolean>= new EventEmitter<boolean>();
-  @Input() tripId:Number;
+export class AddSiteComponent implements OnInit {
+  siteForm: FormGroup;
+  districts: any = [];
+  siteTypes: any = [];
+  userId: Number;
+  @Output() onSiteAdded: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onSiteId: EventEmitter<Number> = new EventEmitter<Number>();
+  @Input() tripId: Number;
 
-  constructor(private formBuilder:FormBuilder, private siteService:SiteService, 
-    private districtService:DistrictService, private siteTypeService:SiteTypeService, 
-    private shareService:SharedService) { 
+  constructor(private formBuilder: FormBuilder, private siteService: SiteService,
+    private districtService: DistrictService, private siteTypeService: SiteTypeService,
+    private shareService: SharedService) {
   }
 
   ngOnInit() {
-    this.siteForm=this.formBuilder.group({
-      siteName:[''],
-      siteVillageName:[''],
-      siteTypeId:[''],
-      districtId:[''],
-      tripTypeId:['']
+    this.siteForm = this.formBuilder.group({
+      siteName: [''],
+      siteVillageName: [''],
+      siteTypeId: [''],
+      districtId: [''],
+      tripTypeId: ['']
     });
-    this.userId=Number(this.shareService.getUserId());
+    this.userId = Number(this.shareService.getUserId());
     this.getAllDistrict();
     this.getAllSiteTypes();
   }
-  async onSiteAdd()
-  {
-    let siteModel={
-      siteName:this.siteForm.value.siteName,
-      siteVillageName:this.siteForm.value.siteVillageName,
-      siteTypeId:this.siteForm.value.siteTypeId,
-      districtId:this.siteForm.value.districtId,
-      tripTypeId:Number(this.siteForm.value.tripTypeId),
-      userId:this.userId,
-      latitude:10.666666,
-      longitude:10.666666,
-      tripId:this.tripId
+  async onSiteAdd() {
+    let siteModel = {
+      siteName: this.siteForm.value.siteName,
+      siteVillageName: this.siteForm.value.siteVillageName,
+      siteTypeId: this.siteForm.value.siteTypeId,
+      districtId: this.siteForm.value.districtId,
+      tripTypeId: Number(this.siteForm.value.tripTypeId),
+      userId: this.userId,
+      latitude: 10.666666,
+      longitude: 10.666666,
+      tripId: this.tripId
     }
-    let response=await this.siteService.addSite(siteModel);
+    let response = await this.siteService.addSite(siteModel);
     this.onSiteAdded.emit(response.success);
+    this.onSiteId.emit(response.data.insertId);
   }
-  async getAllDistrict()
-  {
-    this.districtService.getAllDistrict().subscribe((response:any)=>{
-      this.districts=response.data;
+  async getAllDistrict() {
+    this.districtService.getAllDistrict().subscribe((response: any) => {
+      this.districts = response.data;
     });
   }
-  async getAllSiteTypes()
-  {
-    this.siteTypeService.getAllSiteType().subscribe((response:any)=>{
-      this.siteTypes=response.data;
+  async getAllSiteTypes() {
+    this.siteTypeService.getAllSiteType().subscribe((response: any) => {
+      this.siteTypes = response.data;
     });
   }
 }

@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "trakAgile",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
