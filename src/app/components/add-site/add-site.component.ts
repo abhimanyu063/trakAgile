@@ -68,7 +68,6 @@ export class AddSiteComponent implements OnInit {
       }
     }
     else {
-      console.log(siteModel);
       this.message = "all fields are mandatory.";
       this.displayToast();
     }
