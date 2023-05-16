@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { DistrictService } from 'src/app/services/district.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SiteService } from 'src/app/services/site.service';
 import { SiteTypeService } from 'src/app/services/sitetype.service';
-
+import { AppConfig } from 'src/app/appconfig';
 
 @Component({
   selector: 'app-add-site',
@@ -24,19 +24,21 @@ export class AddSiteComponent implements OnInit {
   @Output() onSiteAdded: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onSiteId: EventEmitter<Number> = new EventEmitter<Number>();
   @Input() tripId: Number;
+  message: string = '';
+  color: string = '';
 
   constructor(private formBuilder: FormBuilder, private siteService: SiteService,
     private districtService: DistrictService, private siteTypeService: SiteTypeService,
-    private shareService: SharedService) {
+    private shareService: SharedService, private toastController: ToastController) {
   }
 
   ngOnInit() {
     this.siteForm = this.formBuilder.group({
-      siteName: [''],
-      siteVillageName: [''],
-      siteTypeId: [''],
-      districtId: [''],
-      tripTypeId: ['']
+      siteName: ['', Validators.required],
+      siteVillageName: ['', Validators.required],
+      siteTypeId: ['', Validators.required],
+      districtId: ['', Validators.required],
+      tripTypeId: ['', Validators.required]
     });
     this.userId = Number(this.shareService.getUserId());
     this.getAllDistrict();
@@ -50,13 +52,26 @@ export class AddSiteComponent implements OnInit {
       districtId: this.siteForm.value.districtId,
       tripTypeId: Number(this.siteForm.value.tripTypeId),
       userId: this.userId,
-      latitude: 10.666666,
-      longitude: 10.666666,
+      latitude: 12.971648,
+      longitude: 77.749939,
       tripId: this.tripId
     }
-    let response = await this.siteService.addSite(siteModel);
-    this.onSiteAdded.emit(response.success);
-    this.onSiteId.emit(response.data.insertId);
+    if (siteModel.tripTypeId !=0 && siteModel.districtId != 0 && siteModel.siteTypeId != 0 && siteModel.latitude != undefined
+      && siteModel.longitude != undefined && siteModel.siteName != "" && siteModel.siteVillageName != "" ) {
+      console.log(siteModel);
+      let response = await this.siteService.addSite(siteModel);
+      if (response.success) {
+        this.onSiteAdded.emit(response.success);
+        this.onSiteId.emit(response.data.insertId);
+        this.message = "site has been added.";
+        this.displayToast();
+      }
+    }
+    else {
+      console.log(siteModel);
+      this.message = "all fields are mandatory.";
+      this.displayToast();
+    }
   }
   async getAllDistrict() {
     this.districtService.getAllDistrict().subscribe((response: any) => {
@@ -66,6 +81,30 @@ export class AddSiteComponent implements OnInit {
   async getAllSiteTypes() {
     this.siteTypeService.getAllSiteType().subscribe((response: any) => {
       this.siteTypes = response.data;
+    });
+  }
+  get errorControl() {
+    return this.siteForm.controls;
+  }
+  displayToast() {
+    this.toastController.create({
+      //header: 'Welcome!',
+      message: this.message,
+      color: ".textbackground",
+      position: 'bottom',
+      cssClass: 'toast-custom-class',
+      buttons: [
+        {
+          side: 'end',
+          text: 'Close',
+          role: 'cancel',
+          handler: () => { }
+        }
+      ]
+    }).then((toast) => {
+      toast.present();
+    }).then(() => {
+      setTimeout(() => this.toastController.dismiss(), AppConfig.toastDuration)
     });
   }
 }

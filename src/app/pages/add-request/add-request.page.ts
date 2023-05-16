@@ -27,7 +27,7 @@ export class AddRequestPage implements OnInit {
   isPopoverOpen: boolean = false;
   requestDate: any;
   message: string = '';
-  color: string = "";
+  color: string = '';
 
   constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private requestTypeService: RequestTypeService, private requestService: RequestService, private router: Router, private toastController: ToastController) { }
 
@@ -60,8 +60,6 @@ export class AddRequestPage implements OnInit {
       }
     }
     else {
-      this.color = ".textbackground.color";
-      console.log("color", this.color);
       this.message = "all fields are mandatory.";
       this.displayToast();
     }
