@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref=""></ion-back-button>
     </ion-buttons>
-      <ion-title>Add Request</ion-title>
+    <ion-title>Add Request</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,33 +11,32 @@
   <div>
     <form [formGroup]="requestForm" (ngSubmit)="onRequestAdd()">
       <div class="input-container c1">
-        <ion-select label="Request Type" label-placement="floating" fill="outline" 
-        formControlName="requestTypeId">
-        <ion-select-option *ngFor="let requestType of requestTypes" [value]="requestType.requestTypeId">{{requestType.requestTypeDescription}}</ion-select-option>
+        <ion-select label="Request Type" label-placement="floating" fill="outline" formControlName="requestTypeId">
+          <ion-select-option *ngFor="let requestType of requestTypes"
+            [value]="requestType.requestTypeId">{{requestType.requestTypeDescription}}</ion-select-option>
         </ion-select>
       </div>
       <div class="input-container c1">
-        <ion-input label="Request Date" value="{{requestDate}}" label-placement="floating" fill="outline" placeholder="Request Date" 
-        id="open-modal" formControlName="requestDate"></ion-input>
+        <ion-input label="Request Date" value="{{requestDate}}" label-placement="floating" fill="outline"
+          placeholder="Request Date" id="open-modal" formControlName="requestDate"></ion-input>
       </div>
       <div class="input-container c1">
-        <ion-input label="Comment" label-placement="floating" fill="outline" placeholder="Comment" 
-        formControlName="requestComment"></ion-input>
+        <ion-input label="Comment" label-placement="floating" fill="outline" placeholder="Comment"
+          formControlName="requestComment"></ion-input>
       </div>
+
       <div>
-        <ion-button color="primary" shape="round"  size="large" expand="block" type="submit">Submit Request</ion-button>
+        <ion-button color="primary" shape="round" size="large" expand="block" type="submit">Submit Request</ion-button>
       </div>
     </form>
   </div>
-  <ion-modal
-    trigger="open-modal"
-    handleBehavior="cycle">
+  <ion-modal trigger="open-modal" handleBehavior="cycle">
     <ng-template>
-        <div class="block">
-          <ion-datetime showDefaultButtons="true" presentation="date"
-           #popoverDatetime1 (ionChange)="setPreferredDate(popoverDatetime1.value)" >
-           </ion-datetime>
-        </div>
+      <div class="block">
+        <ion-datetime showDefaultButtons="true" presentation="date" #popoverDatetime1
+          (ionChange)="setPreferredDate(popoverDatetime1.value)">
+        </ion-datetime>
+      </div>
     </ng-template>
   </ion-modal>
 </ion-content>

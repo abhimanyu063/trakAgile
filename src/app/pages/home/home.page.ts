@@ -121,11 +121,11 @@ export class HomePage implements OnInit {
           if (filteredSites && filteredSites.length > 0) {
             this.isSiteAdded = true;
             this.siteId = filteredSites[filteredSites.length - 1].siteId;
-            this.message = "Trip already started, site alredy added, please add site works.";
+            this.message = "trip already started, site alredy added, please add site works.";
             this.displayToast();
           }
           else {
-            this.message = "Trip already started, please add site.";
+            this.message = "trip already started, please add site.";
             this.displayToast();
           }
         });
