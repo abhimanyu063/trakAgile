@@ -50,17 +50,17 @@ export class AddRequestPage implements OnInit {
       userId: this.userId,
       requestDate: this.requestDate
     }
-    if (request.requestComment.length > 0 && request.requestDate.length > 0 && request.requestTypeId.length > 0) {
+    if (request.requestComment != "" && request.requestDate != undefined && request.requestTypeId != 0) {
 
       const response = await this.requestService.addRequest(request);
       if (response.success) {
         this.router.navigate(['/my-request']);
-        this.message = "request has been added.";
+        this.message = "Request has been added.";
         this.displayToast();
       }
     }
     else {
-      this.message = "all fields are mandatory.";
+      this.message = "All fields are mandatory.";
       this.displayToast();
     }
   }

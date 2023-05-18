@@ -48,11 +48,11 @@ export class WorkflowComponent implements OnInit {
       let response = await this.workflowService.saveWorkflow(request).toPromise();
       console.log("response", response);
       this.onWorkCompleted.emit(true);
-      this.message = "document has been uploaded.";
+      this.message = "Document has been uploaded.";
       this.displayToast();
     }
     else {
-      this.message = "all fields are mandatory.";
+      this.message = "All fields are mandatory.";
       this.displayToast();
     }
 

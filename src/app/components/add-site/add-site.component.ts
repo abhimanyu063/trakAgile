@@ -63,12 +63,12 @@ export class AddSiteComponent implements OnInit {
       if (response.success) {
         this.onSiteAdded.emit(response.success);
         this.onSiteId.emit(response.data.insertId);
-        this.message = "site has been added.";
+        this.message = "Site has been added.";
         this.displayToast();
       }
     }
     else {
-      this.message = "all fields are mandatory.";
+      this.message = "All fields are mandatory.";
       this.displayToast();
     }
   }
