@@ -71,9 +71,15 @@ export class HomePage implements OnInit {
       longitude: longitude
     }
     let response = await this.tripService.addTrip(tripObject);
-    this.tripId = response.data.insertId;
-    this.isTripStarted = true;
-    this.message = "Trip Started Successfully";
+    if (response.success) {
+      this.tripId = response.data.insertId;
+      this.isTripStarted = true;
+      this.message = "Trip Started Successfully";
+    }
+    else {
+      this.message = "Error occured while starting trip.";
+    }
+    this.displayToast();
   }
   async onTripEnded() {
     let latitude = "";
@@ -91,10 +97,14 @@ export class HomePage implements OnInit {
       endLongitude: longitude,
     }
     let response = await this.tripService.endTrip(tripObject);
-    this.router.navigate(['/home']);
-    this.isTripStarted = false;
-
-
+    if (response.success) {
+      this.router.navigate(['/home']);
+      this.isTripStarted = false;
+    }
+    else {
+      this.message = "Error occured while ending trip."
+      this.displayToast();
+    }
   }
   onSiteAdded(event: any) {
     this.isSiteAdded = event;
@@ -112,7 +122,6 @@ export class HomePage implements OnInit {
       trips = response.data;
       let filteredTrips = trips.filter(x => x.isTripEnded == false);
       if (filteredTrips && filteredTrips.length > 0) {
-        this.isTripStarted = true;
         this.tripId = filteredTrips[filteredTrips.length - 1].tripId;
 
         this.siteService.getSites(this.userId).subscribe((response: any) => {
@@ -128,6 +137,7 @@ export class HomePage implements OnInit {
             this.message = "Trip already started, please add site.";
             this.displayToast();
           }
+          this.isTripStarted = true;
         });
       }
     });

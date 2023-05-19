@@ -46,8 +46,8 @@ export class AddSiteComponent implements OnInit {
   }
   async onSiteAdd() {
     let siteModel = {
-      siteName: this.siteForm.value.siteName,
-      siteVillageName: this.siteForm.value.siteVillageName,
+      siteName: this.siteForm.value.siteName.trim(),
+      siteVillageName: this.siteForm.value.siteVillageName.trim(),
       siteTypeId: this.siteForm.value.siteTypeId,
       districtId: this.siteForm.value.districtId,
       tripTypeId: Number(this.siteForm.value.tripTypeId),
@@ -56,21 +56,22 @@ export class AddSiteComponent implements OnInit {
       longitude: 77.749939,
       tripId: this.tripId
     }
-    if (siteModel.tripTypeId !=0 && siteModel.districtId != 0 && siteModel.siteTypeId != 0 && siteModel.latitude != undefined
-      && siteModel.longitude != undefined && siteModel.siteName != "" && siteModel.siteVillageName != "" ) {
-      console.log(siteModel);
+    if (siteModel.tripTypeId != 0 && siteModel.districtId != 0 && siteModel.siteTypeId != 0 && siteModel.latitude != undefined
+      && siteModel.longitude != undefined && siteModel.siteName != "" && siteModel.siteVillageName != "") {
       let response = await this.siteService.addSite(siteModel);
       if (response.success) {
         this.onSiteAdded.emit(response.success);
         this.onSiteId.emit(response.data.insertId);
         this.message = "Site has been added.";
-        this.displayToast();
+      }
+      else {
+        this.message = "Error occured while adding site.";
       }
     }
     else {
       this.message = "All fields are mandatory.";
-      this.displayToast();
     }
+    this.displayToast();
   }
   async getAllDistrict() {
     this.districtService.getAllDistrict().subscribe((response: any) => {

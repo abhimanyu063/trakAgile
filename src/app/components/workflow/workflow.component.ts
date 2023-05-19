@@ -22,6 +22,8 @@ export class WorkflowComponent implements OnInit {
   @Input() siteId: Number;
   message: string = '';
   color: string = '';
+  isSubmitted: boolean = false;
+  isReportSite: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private workTypeService: WorkTypeService, private workflowService: WorkflowService, private toastController: ToastController) { }
 
@@ -31,13 +33,14 @@ export class WorkflowComponent implements OnInit {
       documentDescription: ['', Validators.required],
       uploadDocument: ['', Validators.required],
       isSiteReportedIssue: true,
-      isWorkCompleted: false
+      isWorkCompleted: false,
+      comment: ['', Validators.required]
     });
     this.getAllWorkTypes();
   }
   async onSaveWorkflow() {
     let request = new FormData();
-    if (this.file != undefined && this.formWorkflow.value.workTypeId != 0 && this.formWorkflow.value.documentDescription != "") {
+    if (this.file != undefined && this.formWorkflow.value.workTypeId != 0 && this.formWorkflow.value.documentDescription.trim() != "") {
       request.append("docPath", this.file, this.file.name);
       request.append("workTypeId", this.formWorkflow.value.workTypeId);
       request.append("documentDescription", this.formWorkflow.value.documentDescription);
@@ -46,19 +49,54 @@ export class WorkflowComponent implements OnInit {
       request.append("siteId", this.siteId.toString());
 
       let response = await this.workflowService.saveWorkflow(request).toPromise();
-      console.log("response", response);
-      this.onWorkCompleted.emit(true);
-      this.message = "Document has been uploaded.";
-      this.displayToast();
+      if (response.success) {
+        this.isSubmitted = true;
+        this.onWorkCompleted.emit(true);
+        this.message = "Site work completed.";
+      }
+      else {
+        this.message = "Error occured while completing site work.";
+      }
     }
     else {
       this.message = "All fields are mandatory.";
-      this.displayToast();
     }
+    this.displayToast();
+  }
 
+  openReportSiteDiv() {
+    this.isReportSite = true;
+    this.isSubmitted = true;
+  }
+  closeReportSiteDiv() {
+    this.isReportSite = false;
+    this.isSubmitted = false;
+  }
+
+  async onReportSite() {
+    let request = {
+      siteId: this.siteId,
+      isSiteReportedIssue: 1,
+      comment: this.formWorkflow.value.comment.trim(),
+    }
+    if (request.comment != "") {
+      let response = await this.workflowService.reportIssue(request).toPromise();
+      if (response.success) {
+        this.isReportSite = false;
+        this.isSubmitted = true;
+        this.onWorkCompleted.emit(true);
+        this.message = "Site issue reported.";
+      }
+      else {
+        this.message = "Error occured while reporting site.";
+      }
+    }
+    else {
+      this.message = "Report comment is mandatory.";
+    }
+    this.displayToast();
   }
   async onFileChange(fileChangeEvent: any) {
-
     this.file = fileChangeEvent.target.files[0];
   }
   async getAllWorkTypes() {

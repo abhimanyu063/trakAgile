@@ -47,6 +47,7 @@ export class MySitesPage implements OnInit {
           isTripEnded: element.isTripEnded,
           isWorkCompleted: element.isWorkCompleted,
           isSiteReportedIssue: element.isSiteReportedIssue,
+          comment: element.comment,
           latitude: element.latitude,
           longitude: element.longitude,
           endLatitude: element.endLatitude,

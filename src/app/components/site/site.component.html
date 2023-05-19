@@ -24,7 +24,13 @@
     </ion-label>
   </ion-card-content>
   <ion-row style="margin-left:0px; padding:0px">
-    <h3 style="font-size:14px; margin-left:10px">Status : {{siteModel.isWorkCompleted?
-      'Completed':siteModel.isSiteReportedIssue ? 'Reported Issue': 'Started'}} </h3>
+    <ion-col col-lg-9>
+      <h3 style="font-size:14px; margin-left:10px">Status : {{siteModel.isWorkCompleted?
+        'Completed':siteModel.isSiteReportedIssue ? 'Reported Site Issue': 'Inprogress'}} </h3>
+    </ion-col>
+    <ion-col col-lg-9>
+      <h3 style="font-size:14px; margin-left:10px" *ngIf="siteModel.isSiteReportedIssue">Comment : {{siteModel.comment}}
+      </h3>
+    </ion-col>
   </ion-row>
 </ion-card>

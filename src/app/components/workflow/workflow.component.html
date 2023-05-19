@@ -1,22 +1,37 @@
 <div>
   <form [formGroup]="formWorkflow" (ngSubmit)="onSaveWorkflow()">
-    <div class="input-container c1">
+    <div class="input-container c1" *ngIf="!isReportSite">
       <ion-select label="Work Type" label-placement="floating" fill="outline" formControlName="workTypeId">
         <ion-select-option *ngFor="let workType of workTypes"
           [value]="workType.workTypeId">{{workType.workTypeName}}</ion-select-option>
       </ion-select>
     </div>
-    <div class="input-container c1">
+    <div class="input-container c1" *ngIf="!isReportSite">
       <ion-input label="Document Description" label-placement="floating" fill="outline"
         placeholder="Document Description" formControlName="documentDescription"></ion-input>
     </div>
-    <div class="input-container c1">
+    <div class="input-container c1" *ngIf="!isReportSite">
       <ion-input label="Upload Document" type="file" label-placement="floating" fill="outline" placeholder="Upload"
         formControlName="uploadDocument" (change)="onFileChange($event)"></ion-input>
     </div>
-    <div class="btn-group">
-      <ion-button color="primary" class="w50" shape="round"  size="large" expand="block" type="submit">Submit</ion-button>
-      <ion-button color="primary" class="w50" shape="round"  size="large" expand="block" type="button">Report Site</ion-button>
+    <div class="input-container c1" *ngIf="isReportSite">
+      <ion-textarea label="Report Comment" labelPlacement="floating" fill="outline" formControlName="comment"
+        placeholder="Report Comment"></ion-textarea>
+    </div>
+    <div class="btn-group" *ngIf="isReportSite">
+      <ion-button color="primary" class="w50" shape="round" size="large" expand="block" (click)="closeReportSiteDiv()"
+        type="button">
+        Cancel</ion-button>
+      <ion-button color="primary" class="w50" shape="round" size="large" expand="block" (click)="onReportSite()"
+        type="button">Save
+      </ion-button>
+    </div>
+    <div class="btn-group" *ngIf="!isSubmitted">
+      <ion-button color="primary" class="w50" shape="round" size="large" expand="block"
+        type="submit">Submit</ion-button>
+      <ion-button color="primary" class="w50" shape="round" size="large" expand="block" (click)="openReportSiteDiv()"
+        type="button">Report
+        Site</ion-button>
     </div>
   </form>
 </div>

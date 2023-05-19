@@ -42,17 +42,18 @@ export class ChangePasswordPage implements OnInit {
     });
   }
   async onChangePassword() {
-    if (this.changePasswordForm.value.oldPassword.trim() !== "" && this.changePasswordForm.value.newPassword.trim() !== "" && this.changePasswordForm.value.confirmPassword.trim() !== "") {
-      if (this.changePasswordForm.value.newPassword.trim() === this.changePasswordForm.value.confirmPassword.trim()) {
-        let payload = {
-          userId: this.userId,
-          oldPassword: this.changePasswordForm.value.oldPassword.trim(),
-          newPassword: this.changePasswordForm.value.newPassword.trim()
-        }
+    let payload = {
+      userId: this.userId,
+      oldPassword: this.changePasswordForm.value.oldPassword.trim(),
+      newPassword: this.changePasswordForm.value.newPassword.trim()
+    }
+    if (payload.oldPassword !== "" && payload.newPassword !== "" && this.changePasswordForm.value.confirmPassword.trim() !== "") {
+      if (payload.newPassword === this.changePasswordForm.value.confirmPassword.trim()) {
         const response = await this.userService.changePassword(payload);
         if (response.success) {
           this.isAlertOpen = true;
-          this.message = "Password changed successfully!!!";
+          this.message = "Password changed successfully.";
+          this.router.navigate(['/customer-login']);
         }
         else {
           this.isAlertOpen = true;
@@ -63,8 +64,11 @@ export class ChangePasswordPage implements OnInit {
         this.isAlertOpen = true;
         this.message = "New password and Confirm password does not match.";
       }
-      this.displayToast();
     }
+    else {
+      this.message = "All fields are mandatory.";
+    }
+    this.displayToast();
   }
   displayToast() {
     this.toastController.create({

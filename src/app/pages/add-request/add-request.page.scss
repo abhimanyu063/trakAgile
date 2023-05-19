@@ -7,6 +7,7 @@ body {
 }
 
 form {
+  border-radius: 20px;
   box-sizing: border-box;
   height: 600px;
   padding: 20px;
@@ -45,7 +46,8 @@ form {
   margin-top: 30px;
 }
 
-ion-input {
+ion-input,
+ion-textarea {
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
@@ -129,11 +131,6 @@ ion-input {
 ion-modal {
   --height: auto;
 }
-ion-toast.custom-toast::part(button) {
-  border-left: 1px solid #d2d2d2;
-  color: #030207;
-  font-size: 15px;
-}
 
 ion-toast.custom-toast {
   --background: #f4f4fa;
@@ -143,4 +140,10 @@ ion-toast.custom-toast {
 
 ion-toast.custom-toast::part(message) {
   font-style: italic;
+}
+
+ion-toast.custom-toast::part(button) {
+  border-left: 1px solid #d2d2d2;
+  color: #030207;
+  font-size: 15px;
 }

@@ -45,24 +45,25 @@ export class AddRequestPage implements OnInit {
   }
   async onRequestAdd() {
     let request = {
-      requestComment: this.requestForm.value.requestComment,
+      requestComment: this.requestForm.value.requestComment.trim(),
       requestTypeId: this.requestForm.value.requestTypeId,
       userId: this.userId,
       requestDate: this.requestDate
     }
     if (request.requestComment != "" && request.requestDate != undefined && request.requestTypeId != 0) {
-
       const response = await this.requestService.addRequest(request);
       if (response.success) {
         this.router.navigate(['/my-request']);
         this.message = "Request has been added.";
-        this.displayToast();
+      }
+      else {
+        this.message = "Error occured while adding request.";
       }
     }
     else {
       this.message = "All fields are mandatory.";
-      this.displayToast();
     }
+    this.displayToast();
   }
   checkVal(event: any) {
     console.log(event)
@@ -76,8 +77,7 @@ export class AddRequestPage implements OnInit {
     this.isPopoverOpen = false;
   }
   setPreferredDate(value: any) {
-    this.requestDate = value;
-    console.log(value);
+    this.requestDate = value?.slice(0, 10);
   }
   onRequestDateClicked() {
     this.isPopoverOpen = true;
