@@ -31,6 +31,9 @@ export class AddRequestPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private requestTypeService: RequestTypeService, private requestService: RequestService, private router: Router, private toastController: ToastController, private route: ActivatedRoute) {
     route.params.subscribe(val => {
+      if(this.sharedService.getUserId()==""){
+        this.router.navigate(['/customer-login']);
+      }
       this.userId = Number(this.sharedService.getUserId());
       this.requestForm = this.formBuilder.group({
         requestComment: ['', Validators.required],

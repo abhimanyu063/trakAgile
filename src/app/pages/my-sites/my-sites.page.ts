@@ -8,7 +8,7 @@ import { ApiHttpService } from 'src/app/services/ApiHttpService.services';
 import { HttpClientModule } from '@angular/common/http';
 import { siteModel } from 'src/app/models/site.model';
 import { SharedService } from 'src/app/services/shared.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-sites',
@@ -23,8 +23,11 @@ export class MySitesPage implements OnInit {
   sites: Array<siteModel> = new Array<siteModel>;
   userId: Number;
 
-  constructor(private siteService: SiteService, private sharedService: SharedService, private route: ActivatedRoute) {
+  constructor(private siteService: SiteService, private router: Router, private sharedService: SharedService, private route: ActivatedRoute) {
     route.params.subscribe(val => {
+      if (this.sharedService.getUserId() == "") {
+        this.router.navigate(['/customer-login']);
+      }
       this.userId = this.sharedService.getUserId();
       this.getMySites(this.userId);
     });

@@ -25,6 +25,9 @@ export class MyRequestPage implements OnInit {
 
   constructor(private requestService: RequestService, private sharedService: SharedService, private router: Router, private route: ActivatedRoute) {
     route.params.subscribe(val => {
+      if(this.sharedService.getUserId()==""){
+        this.router.navigate(['/customer-login']);
+      }
       this.userId = Number(this.sharedService.getUserId());
       this.onGetRequests(this.userId);
     });

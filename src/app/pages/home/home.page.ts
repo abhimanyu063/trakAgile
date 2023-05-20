@@ -48,6 +48,9 @@ export class HomePage implements OnInit {
 
   constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private toastController: ToastController, private route: ActivatedRoute) {
     route.params.subscribe(val => {
+      if (this.sharedService.getUserId() == "") {
+        this.router.navigate(['/customer-login']);
+      }
       this.isProduction = AppConfig.isProduction;
       this.userName = this.sharedService.getName();
       this.userId = this.sharedService.getUserId();
