@@ -5,6 +5,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { WorkflowService } from 'src/app/services/workflow.service';
 import { WorkTypeService } from 'src/app/services/worktype.service';
 import { AppConfig } from 'src/app/appconfig';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-workflow',
@@ -25,19 +26,22 @@ export class WorkflowComponent implements OnInit {
   isSubmitted: boolean = false;
   isReportSite: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private workTypeService: WorkTypeService, private workflowService: WorkflowService, private toastController: ToastController) { }
-
-  ngOnInit() {
-    this.formWorkflow = this.formBuilder.group({
-      workTypeId: ['', Validators.required],
-      documentDescription: ['', Validators.required],
-      uploadDocument: ['', Validators.required],
-      isSiteReportedIssue: true,
-      isWorkCompleted: false,
-      comment: ['', Validators.required]
+  constructor(private formBuilder: FormBuilder, private workTypeService: WorkTypeService, private workflowService: WorkflowService, private toastController: ToastController, private route: ActivatedRoute) {
+    route.params.subscribe(val => {
+      this.formWorkflow = this.formBuilder.group({
+        workTypeId: ['', Validators.required],
+        documentDescription: ['', Validators.required],
+        uploadDocument: ['', Validators.required],
+        isSiteReportedIssue: true,
+        isWorkCompleted: false,
+        comment: ['', Validators.required]
+      });
+      this.getAllWorkTypes();
     });
-    this.getAllWorkTypes();
   }
+
+  ngOnInit() { }
+
   async onSaveWorkflow() {
     let request = new FormData();
     if (this.file != undefined && this.formWorkflow.value.workTypeId != 0 && this.formWorkflow.value.documentDescription.trim() != "") {

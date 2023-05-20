@@ -7,7 +7,7 @@ import { RequestTypeService } from 'src/app/services/requesttype.service';
 import { ApiHttpService } from 'src/app/services/ApiHttpService.services';
 import { HttpClientModule } from '@angular/common/http';
 import { RequestService } from 'src/app/services/request.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfig } from 'src/app/appconfig';
 
 @Component({
@@ -29,20 +29,23 @@ export class AddRequestPage implements OnInit {
   message: string = '';
   color: string = '';
 
-  constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private requestTypeService: RequestTypeService, private requestService: RequestService, private router: Router, private toastController: ToastController) { }
+  constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private requestTypeService: RequestTypeService, private requestService: RequestService, private router: Router, private toastController: ToastController, private route: ActivatedRoute) {
+    route.params.subscribe(val => {
+      this.userId = Number(this.sharedService.getUserId());
+      this.requestForm = this.formBuilder.group({
+        requestComment: ['', Validators.required],
+        requestTypeId: ['', Validators.required],
+        userId: this.userId,
+        //requestDate: [this.requestDate],
+        requestDate: ['', Validators.required],
 
-  ngOnInit() {
-    this.userId = Number(this.sharedService.getUserId());
-    this.requestForm = this.formBuilder.group({
-      requestComment: ['', Validators.required],
-      requestTypeId: ['', Validators.required],
-      userId: this.userId,
-      //requestDate: [this.requestDate],
-      requestDate: ['', Validators.required],
-
+      });
+      this.onGetAllRequestTypes();
     });
-    this.onGetAllRequestTypes();
   }
+
+  ngOnInit() { }
+
   async onRequestAdd() {
     let request = {
       requestComment: this.requestForm.value.requestComment.trim(),

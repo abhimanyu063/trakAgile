@@ -5,7 +5,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { SharedService } from 'src/app/services/shared.service';
 import { ApiHttpService } from 'src/app/services/ApiHttpService.services';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { AppConfig } from 'src/app/appconfig';
 
@@ -30,17 +30,20 @@ export class ChangePasswordPage implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private userService: UserService, private router: Router, private toastController: ToastController) { }
-
-  ngOnInit() {
-    this.userId = Number(this.sharedService.getUserId());
-    this.changePasswordForm = this.formBuilder.group({
-      userId: this.userId,
-      oldPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+  constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private userService: UserService, private router: Router, private toastController: ToastController, private route: ActivatedRoute) {
+    route.params.subscribe(val => {
+      this.userId = Number(this.sharedService.getUserId());
+      this.changePasswordForm = this.formBuilder.group({
+        userId: this.userId,
+        oldPassword: ['', Validators.required],
+        newPassword: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+      });
     });
   }
+
+  ngOnInit() { }
+
   async onChangePassword() {
     let payload = {
       userId: this.userId,

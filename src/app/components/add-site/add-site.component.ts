@@ -7,6 +7,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { SiteService } from 'src/app/services/site.service';
 import { SiteTypeService } from 'src/app/services/sitetype.service';
 import { AppConfig } from 'src/app/appconfig';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-site',
@@ -29,21 +30,23 @@ export class AddSiteComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private siteService: SiteService,
     private districtService: DistrictService, private siteTypeService: SiteTypeService,
-    private shareService: SharedService, private toastController: ToastController) {
+    private shareService: SharedService, private toastController: ToastController, private route: ActivatedRoute) {
+    route.params.subscribe(val => {
+      this.siteForm = this.formBuilder.group({
+        siteName: ['', Validators.required],
+        siteVillageName: ['', Validators.required],
+        siteTypeId: ['', Validators.required],
+        districtId: ['', Validators.required],
+        tripTypeId: ['', Validators.required]
+      });
+      this.userId = Number(this.shareService.getUserId());
+      this.getAllDistrict();
+      this.getAllSiteTypes();
+    });
   }
 
-  ngOnInit() {
-    this.siteForm = this.formBuilder.group({
-      siteName: ['', Validators.required],
-      siteVillageName: ['', Validators.required],
-      siteTypeId: ['', Validators.required],
-      districtId: ['', Validators.required],
-      tripTypeId: ['', Validators.required]
-    });
-    this.userId = Number(this.shareService.getUserId());
-    this.getAllDistrict();
-    this.getAllSiteTypes();
-  }
+  ngOnInit() { }
+
   async onSiteAdd() {
     let siteModel = {
       siteName: this.siteForm.value.siteName.trim(),

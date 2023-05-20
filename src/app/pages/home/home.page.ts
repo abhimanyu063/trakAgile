@@ -16,7 +16,7 @@ import { WorkflowService } from 'src/app/services/workflow.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { tripModel } from 'src/app/models/trip.model';
 import { AppConfig } from 'src/app/appconfig';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { siteModel } from 'src/app/models/site.model';
 
 @Component({
@@ -46,14 +46,17 @@ export class HomePage implements OnInit {
   isWorkCompleted: boolean = false;
   isProduction: boolean = false;
 
-  constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private toastController: ToastController) { }
-
-  ngOnInit() {
-    this.isProduction = AppConfig.isProduction;
-    this.userName = this.sharedService.getName();
-    this.userId = this.sharedService.getUserId();
-    this.loadSite();
+  constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private toastController: ToastController, private route: ActivatedRoute) {
+    route.params.subscribe(val => {
+      this.isProduction = AppConfig.isProduction;
+      this.userName = this.sharedService.getName();
+      this.userId = this.sharedService.getUserId();
+      this.loadSite();
+    });
   }
+
+  ngOnInit() { }
+
   async onTripStarted() {
     let latitude = "";
     let longitude = "";
@@ -131,12 +134,11 @@ export class HomePage implements OnInit {
             this.isSiteAdded = true;
             this.siteId = filteredSites[filteredSites.length - 1].siteId;
             this.message = "Trip already started, site alredy added, please add site works.";
-            this.displayToast();
           }
           else {
             this.message = "Trip already started, please add site.";
-            this.displayToast();
           }
+          this.displayToast();
           this.isTripStarted = true;
         });
       }

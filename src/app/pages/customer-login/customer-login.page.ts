@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { ApiHttpService } from 'src/app/services/ApiHttpService.services';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,20 +24,21 @@ export class CustomerLoginPage implements OnInit {
   isInvalidLogin: boolean = false;
   @ViewChild('confirmModal') confirmModal: DialogComponent;
   constructor(private router: Router, private userService: UserService, private sharedService: SharedService,
-    private formBuilder: FormBuilder, private modalCtrl: ModalController) {
-    this.loginForm = this.formBuilder.group({
-      userName: ['', Validators.required],
-      password: ['', Validators.required]
+    private formBuilder: FormBuilder, private modalCtrl: ModalController, private route: ActivatedRoute) {
+    route.params.subscribe(val => {
+      this.sharedService.clearLocalStorage();
+      this.loginForm = this.formBuilder.group({
+        userName: ['', Validators.required],
+        password: ['', Validators.required]
+      });
     });
   }
-  ngOnInit() {
-    this.sharedService.setUserId('');
-    this.sharedService.setUserName('');
-    this.sharedService.setName('');
-  }
+  ngOnInit() { }
+
   onNavigatetoRegistration() {
     this.router.navigate(['/customer-registration'])
   }
+
   async onLoginClick() {
     this.isSubmitted = true;
     var response = await this.userService.validateCustomer(this.loginForm.value).toPromise();
@@ -45,6 +46,7 @@ export class CustomerLoginPage implements OnInit {
       this.sharedService.setUserId(response.data.userId);
       this.sharedService.setUserName(response.data.userName);
       this.sharedService.setName(response.data.name);
+      this.sharedService.setEmail(response.data.email);
       this.router.navigate(['/home']);
     }
     else {
