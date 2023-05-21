@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IonicModule, ToastController } from '@ionic/angular';
 import { WorkflowService } from 'src/app/services/workflow.service';
 import { WorkTypeService } from 'src/app/services/worktype.service';
-import { AppConfig } from 'src/app/appconfig';
 import { ActivatedRoute } from '@angular/router';
+import { CustomToast } from 'src/app/common/customtoast';
 
 @Component({
   selector: 'app-workflow',
@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./workflow.component.scss'],
   standalone: true,
   imports: [IonicModule, ReactiveFormsModule, CommonModule],
+  providers: [CustomToast],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class WorkflowComponent implements OnInit {
@@ -26,7 +27,7 @@ export class WorkflowComponent implements OnInit {
   isSubmitted: boolean = false;
   isReportSite: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private workTypeService: WorkTypeService, private workflowService: WorkflowService, private toastController: ToastController, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private workTypeService: WorkTypeService, private workflowService: WorkflowService, private customToast: CustomToast, private route: ActivatedRoute) {
     route.params.subscribe(val => {
       this.formWorkflow = this.formBuilder.group({
         workTypeId: ['', Validators.required],
@@ -65,7 +66,7 @@ export class WorkflowComponent implements OnInit {
     else {
       this.message = "All fields are mandatory.";
     }
-    this.displayToast();
+    this.customToast.displayToast(this.message);
   }
 
   openReportSiteDiv() {
@@ -98,7 +99,7 @@ export class WorkflowComponent implements OnInit {
     else {
       this.message = "Report comment is mandatory.";
     }
-    this.displayToast();
+    this.customToast.displayToast(this.message);
   }
   async onFileChange(fileChangeEvent: any) {
     this.file = fileChangeEvent.target.files[0];
@@ -111,26 +112,4 @@ export class WorkflowComponent implements OnInit {
   get errorControl() {
     return this.formWorkflow.controls;
   }
-  displayToast() {
-    this.toastController.create({
-      //header: 'Welcome!',
-      message: this.message,
-      color: ".textbackground",
-      position: 'bottom',
-      cssClass: 'toast-custom-class',
-      buttons: [
-        {
-          side: 'end',
-          text: 'Close',
-          role: 'cancel',
-          handler: () => { }
-        }
-      ]
-    }).then((toast) => {
-      toast.present();
-    }).then(() => {
-      setTimeout(() => this.toastController.dismiss(), AppConfig.toastDuration)
-    });
-  }
-
 }

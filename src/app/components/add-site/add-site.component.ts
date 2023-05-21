@@ -8,6 +8,7 @@ import { SiteService } from 'src/app/services/site.service';
 import { SiteTypeService } from 'src/app/services/sitetype.service';
 import { AppConfig } from 'src/app/appconfig';
 import { ActivatedRoute } from '@angular/router';
+import { CustomToast } from 'src/app/common/customtoast';
 
 @Component({
   selector: 'app-add-site',
@@ -15,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./add-site.component.scss'],
   standalone: true,
   imports: [IonicModule, ReactiveFormsModule, CommonModule],
+  providers: [CustomToast],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AddSiteComponent implements OnInit {
@@ -30,7 +32,7 @@ export class AddSiteComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private siteService: SiteService,
     private districtService: DistrictService, private siteTypeService: SiteTypeService,
-    private shareService: SharedService, private toastController: ToastController, private route: ActivatedRoute) {
+    private shareService: SharedService, private customToast: CustomToast, private route: ActivatedRoute) {
     route.params.subscribe(val => {
       this.siteForm = this.formBuilder.group({
         siteName: ['', Validators.required],
@@ -74,7 +76,7 @@ export class AddSiteComponent implements OnInit {
     else {
       this.message = "All fields are mandatory.";
     }
-    this.displayToast();
+    this.customToast.displayToast(this.message);
   }
   async getAllDistrict() {
     this.districtService.getAllDistrict().subscribe((response: any) => {
@@ -88,26 +90,5 @@ export class AddSiteComponent implements OnInit {
   }
   get errorControl() {
     return this.siteForm.controls;
-  }
-  displayToast() {
-    this.toastController.create({
-      //header: 'Welcome!',
-      message: this.message,
-      color: ".textbackground",
-      position: 'bottom',
-      cssClass: 'toast-custom-class',
-      buttons: [
-        {
-          side: 'end',
-          text: 'Close',
-          role: 'cancel',
-          handler: () => { }
-        }
-      ]
-    }).then((toast) => {
-      toast.present();
-    }).then(() => {
-      setTimeout(() => this.toastController.dismiss(), AppConfig.toastDuration)
-    });
   }
 }

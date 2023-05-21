@@ -8,7 +8,7 @@ import { ApiHttpService } from 'src/app/services/ApiHttpService.services';
 import { HttpClientModule } from '@angular/common/http';
 import { RequestService } from 'src/app/services/request.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppConfig } from 'src/app/appconfig';
+import { CustomToast } from 'src/app/common/customtoast';
 
 @Component({
   selector: 'app-add-request',
@@ -16,7 +16,7 @@ import { AppConfig } from 'src/app/appconfig';
   styleUrls: ['./add-request.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule],
-  providers: [RequestTypeService, SharedService, ApiHttpService, RequestService]
+  providers: [RequestTypeService, SharedService, ApiHttpService, RequestService, CustomToast]
 })
 export class AddRequestPage implements OnInit {
   requestForm: FormGroup;
@@ -29,9 +29,9 @@ export class AddRequestPage implements OnInit {
   message: string = '';
   color: string = '';
 
-  constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private requestTypeService: RequestTypeService, private requestService: RequestService, private router: Router, private toastController: ToastController, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private requestTypeService: RequestTypeService, private requestService: RequestService, private router: Router, private customToast: CustomToast, private route: ActivatedRoute) {
     route.params.subscribe(val => {
-      if(this.sharedService.getUserId()==""){
+      if (this.sharedService.getUserId() == "") {
         this.router.navigate(['/customer-login']);
       }
       this.userId = Number(this.sharedService.getUserId());
@@ -69,7 +69,7 @@ export class AddRequestPage implements OnInit {
     else {
       this.message = "All fields are mandatory.";
     }
-    this.displayToast();
+    this.customToast.displayToast(this.message);
   }
   checkVal(event: any) {
     console.log(event)
@@ -91,26 +91,4 @@ export class AddRequestPage implements OnInit {
   get errorControl() {
     return this.requestForm.controls;
   }
-  displayToast() {
-    this.toastController.create({
-      //header: 'Welcome!',
-      message: this.message,
-      color: ".textbackground",
-      position: 'bottom',
-      cssClass: 'toast-custom-class',
-      buttons: [
-        {
-          side: 'end',
-          text: 'Close',
-          role: 'cancel',
-          handler: () => { }
-        }
-      ]
-    }).then((toast) => {
-      toast.present();
-    }).then(() => {
-      setTimeout(() => this.toastController.dismiss(), AppConfig.toastDuration)
-    });
-  }
-
 }

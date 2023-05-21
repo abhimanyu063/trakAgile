@@ -18,6 +18,7 @@ import { tripModel } from 'src/app/models/trip.model';
 import { AppConfig } from 'src/app/appconfig';
 import { ActivatedRoute, Router } from '@angular/router';
 import { siteModel } from 'src/app/models/site.model';
+import { CustomToast } from 'src/app/common/customtoast';
 
 @Component({
   selector: 'app-home',
@@ -25,21 +26,14 @@ import { siteModel } from 'src/app/models/site.model';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, HttpClientModule, AddSiteComponent, WorkflowComponent],
-  providers: [TripService, ApiHttpService, SiteService, DistrictService, SiteTypeService, WorkTypeService, WorkflowService, SharedService],
+  providers: [TripService, ApiHttpService, SiteService, DistrictService, SiteTypeService, WorkTypeService, WorkflowService, SharedService, CustomToast],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
 })
 export class HomePage implements OnInit {
   isTripStarted: boolean = false;
   isShowTripStartBtn: boolean = false;
   userName: string = ''
   userId: Number = 0
-  public toastButtons = [
-    {
-      text: 'X',
-      role: 'cancel',
-    },
-  ];
   isSiteAdded: boolean = false;
   tripId: Number;
   siteId: Number;
@@ -47,7 +41,7 @@ export class HomePage implements OnInit {
   isWorkCompleted: boolean = false;
   isProduction: boolean = false;
 
-  constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private toastController: ToastController, private route: ActivatedRoute) {
+  constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private customToast: CustomToast, private route: ActivatedRoute) {
     route.params.subscribe(val => {
       if (this.sharedService.getUserId() == "") {
         this.router.navigate(['/customer-login']);
@@ -88,7 +82,7 @@ export class HomePage implements OnInit {
     else {
       this.message = "Error occured while starting trip.";
     }
-    this.displayToast();
+    this.customToast.displayToast(this.message);
   }
   async onTripEnded() {
     let latitude = "";
@@ -110,11 +104,13 @@ export class HomePage implements OnInit {
       this.router.navigate(['/home']);
       this.isTripStarted = false;
       this.isShowTripStartBtn = true;
+      this.message = "Trip ended."
     }
     else {
       this.message = "Error occured while ending trip."
-      this.displayToast();
+      
     }
+    this.customToast.displayToast(this.message);
   }
   onSiteAdded(event: any) {
     this.isSiteAdded = event;
@@ -145,34 +141,13 @@ export class HomePage implements OnInit {
           else {
             this.message = "Trip already started, please add site.";
           }
-          this.displayToast();
+          this.customToast.displayToast(this.message);
           this.isTripStarted = true;
         });
       }
       else {
         this.isShowTripStartBtn = true;
       }
-    });
-
-  }
-  displayToast() {
-    this.toastController.create({
-      //header: 'Welcome!',
-      message: this.message,
-      position: 'bottom',
-      cssClass: 'toast-custom-class',
-      buttons: [
-        {
-          side: 'end',
-          text: 'Close',
-          role: 'cancel',
-          handler: () => { }
-        }
-      ]
-    }).then((toast) => {
-      toast.present();
-    }).then(() => {
-      setTimeout(() => this.toastController.dismiss(), AppConfig.toastDuration)
     });
   }
 }
