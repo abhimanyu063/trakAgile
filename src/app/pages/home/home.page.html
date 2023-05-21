@@ -8,9 +8,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <ion-button color="primary" shape="round" size="large" expand="block" (click)="onTripStarted()"
-    *ngIf="!isTripStarted">
+    *ngIf="isShowTripStartBtn">
     Start Trip
   </ion-button>
   <div *ngIf="isTripStarted">

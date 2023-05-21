@@ -31,6 +31,7 @@ import { siteModel } from 'src/app/models/site.model';
 })
 export class HomePage implements OnInit {
   isTripStarted: boolean = false;
+  isShowTripStartBtn: boolean = false;
   userName: string = ''
   userId: Number = 0
   public toastButtons = [
@@ -51,6 +52,7 @@ export class HomePage implements OnInit {
       if (this.sharedService.getUserId() == "") {
         this.router.navigate(['/customer-login']);
       }
+      this.isShowTripStartBtn = false;
       this.isProduction = AppConfig.isProduction;
       this.userName = this.sharedService.getName();
       this.userId = this.sharedService.getUserId();
@@ -79,6 +81,7 @@ export class HomePage implements OnInit {
     let response = await this.tripService.addTrip(tripObject);
     if (response.success) {
       this.tripId = response.data.insertId;
+      this.isShowTripStartBtn = false;
       this.isTripStarted = true;
       this.message = "Trip Started Successfully";
     }
@@ -106,6 +109,7 @@ export class HomePage implements OnInit {
     if (response.success) {
       this.router.navigate(['/home']);
       this.isTripStarted = false;
+      this.isShowTripStartBtn = true;
     }
     else {
       this.message = "Error occured while ending trip."
@@ -144,6 +148,9 @@ export class HomePage implements OnInit {
           this.displayToast();
           this.isTripStarted = true;
         });
+      }
+      else {
+        this.isShowTripStartBtn = true;
       }
     });
 
