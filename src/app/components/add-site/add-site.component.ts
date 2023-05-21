@@ -6,7 +6,6 @@ import { DistrictService } from 'src/app/services/district.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SiteService } from 'src/app/services/site.service';
 import { SiteTypeService } from 'src/app/services/sitetype.service';
-import { AppConfig } from 'src/app/appconfig';
 import { ActivatedRoute } from '@angular/router';
 import { CustomToast } from 'src/app/common/customtoast';
 
@@ -57,15 +56,12 @@ export class AddSiteComponent implements OnInit {
       districtId: this.siteForm.value.districtId,
       tripTypeId: Number(this.siteForm.value.tripTypeId),
       userId: this.userId,
-      latitude: 12.971648,
-      longitude: 77.749939,
       tripId: this.tripId
     }
-    if (siteModel.tripTypeId != 0 && siteModel.districtId != 0 && siteModel.siteTypeId != 0 && siteModel.latitude != undefined
-      && siteModel.longitude != undefined && siteModel.siteName != "" && siteModel.siteVillageName != "") {
+    if (siteModel.tripTypeId != 0 && siteModel.districtId != 0 && siteModel.siteTypeId != 0 && siteModel.siteName != "" && siteModel.siteVillageName != "") {
       let response = await this.siteService.addSite(siteModel);
       if (response.success) {
-        this.onSiteAdded.emit(response.success);
+        this.onSiteAdded.emit(response.success == 1 ? true : false);
         this.onSiteId.emit(response.data.insertId);
         this.message = "Site has been added.";
       }

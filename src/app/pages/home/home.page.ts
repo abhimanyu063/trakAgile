@@ -46,7 +46,10 @@ export class HomePage implements OnInit {
       if (this.sharedService.getUserId() == "") {
         this.router.navigate(['/customer-login']);
       }
+      this.isTripStarted = false;
       this.isShowTripStartBtn = false;
+      this.isSiteAdded = false;
+      this.isWorkCompleted = false;
       this.isProduction = AppConfig.isProduction;
       this.userName = this.sharedService.getName();
       this.userId = this.sharedService.getUserId();
@@ -101,14 +104,16 @@ export class HomePage implements OnInit {
     }
     let response = await this.tripService.endTrip(tripObject);
     if (response.success) {
-      this.router.navigate(['/home']);
       this.isTripStarted = false;
       this.isShowTripStartBtn = true;
+      this.isSiteAdded = false;
+      this.isWorkCompleted = false;
       this.message = "Trip ended."
+      this.router.navigate(['/home']);
     }
     else {
       this.message = "Error occured while ending trip."
-      
+
     }
     this.customToast.displayToast(this.message);
   }
