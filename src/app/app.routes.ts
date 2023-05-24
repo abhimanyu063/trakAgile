@@ -6,7 +6,7 @@ export const routes: Routes = [
   {
     path: '',
     //redirectTo: 'folder/inbox',
-    component: localStorage.getItem("userId") == "" ? CustomerLoginPage : HomePage,
+    component: localStorage.getItem("userId") !== null && localStorage.getItem("userId") !== '' ? HomePage : CustomerLoginPage,
     //pathMatch: 'full',
   },
   {

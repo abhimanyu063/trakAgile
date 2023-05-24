@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
 
   constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private customToast: CustomToast, private route: ActivatedRoute) {
     route.params.subscribe(val => {
-      if (this.sharedService.getUserId() == "") {
+      if (this.sharedService.getUserId() == null || this.sharedService.getUserId() == "") {
         this.router.navigate(['/customer-login']);
       }
       this.isTripStarted = false;
