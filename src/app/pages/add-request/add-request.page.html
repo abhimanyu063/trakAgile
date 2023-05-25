@@ -8,25 +8,27 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div>
+  <div class="wrapper">
     <form [formGroup]="requestForm" (ngSubmit)="onRequestAdd()">
-      <div class="input-container c1">
-        <ion-select label="Request Type" label-placement="floating" fill="outline" formControlName="requestTypeId">
-          <ion-select-option *ngFor="let requestType of requestTypes"
-            [value]="requestType.requestTypeId">{{requestType.requestTypeDescription}}</ion-select-option>
-        </ion-select>
+      <div class="content">
+        <div class="input-container c1">
+          <ion-select label="Request Type" label-placement="floating" fill="outline" formControlName="requestTypeId">
+            <ion-select-option *ngFor="let requestType of requestTypes"
+              [value]="requestType.requestTypeId">{{requestType.requestTypeDescription}}</ion-select-option>
+          </ion-select>
+        </div>
+        <div class="input-container c1">
+          <ion-input label="Request Date" value="{{requestDate}}" label-placement="floating" fill="outline"
+            placeholder="Request Date" id="open-modal" formControlName="requestDate"></ion-input>
+        </div>
+        <div class="textarea-container c1">
+          <ion-textarea label="Comment" labelPlacement="floating" fill="outline" placeholder="Comment"
+            formControlName="requestComment" maxlength="500" [counter]="true"></ion-textarea>
+        </div>
       </div>
-      <div class="input-container c1">
-        <ion-input label="Request Date" value="{{requestDate}}" label-placement="floating" fill="outline"
-          placeholder="Request Date" id="open-modal" formControlName="requestDate"></ion-input>
-      </div>
-      <div class="input-container c1">
-        <ion-textarea label="Comment" labelPlacement="floating" fill="outline" placeholder="Comment"
-          formControlName="requestComment"></ion-textarea>
-      </div>
-
-      <div>
-        <ion-button color="primary" shape="round" size="large" expand="block" type="submit">Submit Request</ion-button>
+      <div class="footer">
+        <ion-button color="primary" class="footer-btn" size="large" expand="block" type="submit">Submit
+        </ion-button>
       </div>
     </form>
   </div>

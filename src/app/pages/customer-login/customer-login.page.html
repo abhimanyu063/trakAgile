@@ -1,27 +1,32 @@
 <ion-content>
-  <form [formGroup]="loginForm" (ngSubmit)="onLoginClick()" style="margin-top:100px">
-    <ion-img src="/assets/icon/trakAgile_logo.jpeg" style="height: 150px; width: 200px; margin-left: auto; margin-right: auto;"></ion-img>
-  <ion-list style="margin: top 0px">
-    <ion-item>
-      <ion-icon name="phone-portrait-outline" size="large" color="warning"></ion-icon>
-      <ion-input placeholder="User Name" formControlName="userName" size="large" ></ion-input>
-      <span class="error ion-padding" *ngIf="isSubmitted && errorControl?.['userName']?.errors?.['required']">
-        *
-      </span>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="lock-closed-outline" size="large" color="warning"></ion-icon>
-      <ion-input placeholder="Password" type="password" formControlName="password" size="large"></ion-input>
-      <span class="error ion-padding" *ngIf="isSubmitted && errorControl?.['password']?.errors?.['required']">
-        *
-      </span>
-    </ion-item>
-  </ion-list>
-  <div class="sign-in-button">
-    <ion-button type="submit" color="primary" shape="round"  size="large" expand="block">
-      Login
-    </ion-button>
+  <div class="wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginClick()" style="margin-top:100px">
+      <ion-img src="/assets/icon/trakAgile_logo.jpeg"
+        style="height: 150px; width: 200px; margin-left: auto; margin-right: auto;"></ion-img>
+      <div class="content">
+        <ion-list style="margin: top 0px">
+          <ion-item>
+            <ion-icon name="phone-portrait-outline" size="large" color="warning"></ion-icon>
+            <ion-input placeholder="User Name" formControlName="userName" size="large"></ion-input>
+            <span class="error ion-padding" *ngIf="isSubmitted && errorControl?.['userName']?.errors?.['required']">
+              *
+            </span>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="lock-closed-outline" size="large" color="warning"></ion-icon>
+            <ion-input placeholder="Password" type="password" formControlName="password" size="large"></ion-input>
+            <span class="error ion-padding" *ngIf="isSubmitted && errorControl?.['password']?.errors?.['required']">
+              *
+            </span>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="sign-in-button footer">
+        <ion-button type="submit" class="footer-btn" color="primary" size="large" expand="block">
+          Login
+        </ion-button>
+      </div>
+    </form>
   </div>
-</form>
 </ion-content>
 <app-dialog-component #confirmModal></app-dialog-component>

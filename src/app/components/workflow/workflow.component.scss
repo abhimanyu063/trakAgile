@@ -38,6 +38,14 @@ form {
   border-radius: 20px;
 }
 
+.textarea-container {
+  height: 67px;
+  position: relative;
+  width: 90%;
+  margin: 5%;
+  border-radius: 30px;
+}
+
 .ic1 {
   margin-top: 40px;
 }
@@ -120,11 +128,23 @@ ion-textarea {
   background-color: #06b;
 }
 
-.w50 {
-  width: 50%;
-}
-
 .btn-group {
   display: flex;
   justify-content: center;
+}
+
+.content {
+  width: 100%;
+}
+
+.footer {
+  //position: absolute;
+  bottom: 5%;
+  width: 100%;
+}
+
+.footer-btn {
+  position: relative;
+  width: 90%;
+  margin: 5%;
 }

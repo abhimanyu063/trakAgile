@@ -8,19 +8,23 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button color="primary" shape="round" size="large" expand="block" (click)="onTripStarted()"
-    *ngIf="isShowTripStartBtn">
-    Start Trip
-  </ion-button>
-  <div *ngIf="isTripStarted">
-    <app-add-site (onSiteAdded)="onSiteAdded($event)" (onSiteId)="onSiteId($event)" *ngIf="!isSiteAdded" [tripId]="tripId"></app-add-site>
-    <div *ngIf="isSiteAdded">
-      <app-workflow (onWorkCompleted)="onWorkCompleted($event)" [siteId]="siteId"></app-workflow>
+  <div class="wrapper">
+    <div class="footer">
+      <ion-button color="primary" class="footer-btn" size="large" expand="block" (click)="onTripStarted()" *ngIf="isShowTripStartBtn">
+        Start Trip
+      </ion-button>
     </div>
-    <ion-button color="primary" shape="round" size="large" expand="block" (click)="onTripEnded()"
-      *ngIf="isWorkCompleted">
-      End Trip
-    </ion-button>
+    <div *ngIf="isTripStarted">
+      <app-add-site (onSiteAdded)="onSiteAdded($event)" (onSiteId)="onSiteId($event)" *ngIf="!isSiteAdded"
+        [tripId]="tripId"></app-add-site>
+      <div *ngIf="isSiteAdded">
+        <app-workflow (onWorkCompleted)="onWorkCompleted($event)" [siteId]="siteId"></app-workflow>
+      </div>
+      <div class="footer" *ngIf="isWorkCompleted">
+        <ion-button color="primary" class="footer-btn" size="large" expand="block" (click)="onTripEnded()">
+          End Trip
+        </ion-button>
+      </div>
+    </div>
   </div>
-  <!-- <ion-toast [is-open]="isTripStarted" message={{message}} class="custom-toast" [buttons]="toastButtons"></ion-toast> -->
 </ion-content>

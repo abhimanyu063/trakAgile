@@ -48,7 +48,7 @@ export class WorkflowComponent implements OnInit {
     if (this.file != undefined && this.formWorkflow.value.workTypeId != 0 && this.formWorkflow.value.documentDescription.trim() != "") {
       request.append("docPath", this.file, this.file.name);
       request.append("workTypeId", this.formWorkflow.value.workTypeId);
-      request.append("documentDescription", this.formWorkflow.value.documentDescription);
+      request.append("documentDescription", this.formWorkflow.value.documentDescription.trim());
       request.append("isSiteReportedIssue", "0");
       request.append("isWorkCompleted", "1");
       request.append("siteId", this.siteId.toString());

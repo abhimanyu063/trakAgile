@@ -118,3 +118,19 @@ ion-input {
 .submit:active {
   background-color: #06b;
 }
+
+.content {
+  width: 100%;
+}
+
+.footer {
+  //position: absolute;
+  bottom: 5%;
+  width: 100%;
+}
+
+.footer-btn {
+  position: relative;
+  width: 90%;
+  margin: 5%;
+}

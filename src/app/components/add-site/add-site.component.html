@@ -1,5 +1,5 @@
-<div>
-  <form [formGroup]="siteForm" (ngSubmit)="onSiteAdd()">
+<form [formGroup]="siteForm" (ngSubmit)="onSiteAdd()">
+  <div class="content">
     <div class="input-container c1">
       <ion-select label="Trip Type" label-placement="floating" fill="outline" formControlName="tripTypeId">
         <ion-select-option value="1">Local</ion-select-option>
@@ -14,7 +14,7 @@
     </div>
     <div class="input-container c1">
       <ion-input label="Site Name" label-placement="floating" fill="outline" placeholder="Site Name"
-        formControlName="siteName"></ion-input>
+        formControlName="siteName" maxlength="100"></ion-input>
     </div>
     <div class="input-container c1">
       <ion-select label="Site Type" label-placement="floating" fill="outline" formControlName="siteTypeId">
@@ -24,10 +24,10 @@
     </div>
     <div class="input-container c1">
       <ion-input label="Village" label-placement="floating" fill="outline" placeholder="Village"
-        formControlName="siteVillageName"></ion-input>
+        formControlName="siteVillageName" maxlength="100"></ion-input>
     </div>
-    <div>
-      <ion-button type="submit" color="primary" shape="round" size="large" expand="block">Add Site</ion-button>
-    </div>
-  </form>
-</div>
+  </div>
+  <div class="footer">
+    <ion-button type="submit" class="footer-btn" color="primary" size="large" expand="block">Add Site</ion-button>
+  </div>
+</form>

@@ -2,7 +2,7 @@
   <ion-card-header style="margin:0px; padding:0px;">
     <ion-row>
       <ion-col col-lg-9>
-        <p style="margin-left:10px">Site : <span>{{siteModel.siteName}} </span> </p>
+        <p style="margin-left:10px">Site Name : <span>{{siteModel.siteName}} </span> </p>
       </ion-col>
       <ion-col col-lg-3>
         <p style="margin-left:10px">Date : <span>{{siteModel.createdOn | date: 'dd-MM-yyyy'}} </span> </p>
@@ -12,25 +12,25 @@
   <ion-card-content>
     <ion-label>
       <ion-row>
-        <ion-col col-lg-12>
+        <ion-col col-lg-6>
           <h3>Location : {{siteModel.siteVillageName}}, {{siteModel.districtName}} </h3>
+        </ion-col>
+        <ion-col col-lg-6>
+          <h3>Site Type : {{siteModel.siteTypeDescription}}, {{siteModel.tripTypeDescription}} </h3>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col col-lg-12>
-          <h3>Site Type : {{siteModel.siteTypeDescription}} </h3>
+          <h3 *ngIf="siteModel.isSiteReportedIssue">Comment : {{siteModel.comment}} </h3>
+          <h3 *ngIf="siteModel.isWorkCompleted">Document Description : {{siteModel.comment}} </h3>
         </ion-col>
       </ion-row>
     </ion-label>
   </ion-card-content>
   <ion-row style="margin-left:0px; padding:0px">
-    <ion-col col-lg-9>
+    <ion-col col-lg-12>
       <h3 style="font-size:14px; margin-left:10px">Status : {{siteModel.isWorkCompleted?
         'Completed':siteModel.isSiteReportedIssue ? 'Reported Site Issue': 'Inprogress'}} </h3>
-    </ion-col>
-    <ion-col col-lg-9>
-      <h3 style="font-size:14px; margin-left:10px" *ngIf="siteModel.isSiteReportedIssue">Comment : {{siteModel.comment}}
-      </h3>
     </ion-col>
   </ion-row>
 </ion-card>

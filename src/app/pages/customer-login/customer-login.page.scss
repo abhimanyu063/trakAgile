@@ -1,5 +1,26 @@
-.error
-{
-    color:red
+.error {
+    color: red
+}
 
+.wrapper {
+    min-height: auto;
+    position: relative;
+    width: 100%;
+}
+
+.content {
+    width: 95%;
+    padding-left: 5%;
+}
+
+.footer {
+    //position: absolute;
+    bottom: 5%;
+    width: 100%;
+}
+
+.footer-btn {
+    position: relative;
+    width: 90%;
+    margin: 5%;
 }

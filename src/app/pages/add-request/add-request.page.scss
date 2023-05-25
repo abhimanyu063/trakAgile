@@ -38,6 +38,14 @@ form {
   border-radius: 30px;
 }
 
+.textarea-container {
+  height: 67px;
+  position: relative;
+  width: 90%;
+  margin: 5%;
+  border-radius: 30px;
+}
+
 .ic1 {
   margin-top: 40px;
 }
@@ -130,4 +138,26 @@ ion-textarea {
 
 ion-modal {
   --height: auto;
+}
+
+.wrapper {
+  min-height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+}
+
+.footer {
+  //position: absolute;
+  bottom: 5%;
+  width: 100%;
+}
+
+.footer-btn {
+  position: relative;
+  width: 90%;
+  margin: 5%;
 }
