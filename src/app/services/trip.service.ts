@@ -20,4 +20,8 @@ export class TripService{
         const apiService = this.injector.get(ApiHttpService);
         return apiService.get(AppConfig.apiBaseUrl + "trips/getTripsById/"+userId+"");
     }
+    onLocationTrack(data: any): any {
+        const apiService = this.injector.get(ApiHttpService);
+        return apiService.post(AppConfig.apiBaseUrl + "sites/addLocation", data).toPromise();
+    }
 }

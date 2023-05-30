@@ -19,6 +19,10 @@ import { AppConfig } from 'src/app/appconfig';
 import { ActivatedRoute, Router } from '@angular/router';
 import { siteModel } from 'src/app/models/site.model';
 import { CustomToast } from 'src/app/common/customtoast';
+import { Capacitor, PluginListenerHandle, Plugins } from '@capacitor/core';
+import { App } from '@capacitor/app';
+import { BackgroundTask } from '@capawesome/capacitor-background-task';
+import { ForegroundService } from '@awesome-cordova-plugins/foreground-service/ngx';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +30,7 @@ import { CustomToast } from 'src/app/common/customtoast';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, HttpClientModule, AddSiteComponent, WorkflowComponent],
-  providers: [TripService, ApiHttpService, SiteService, DistrictService, SiteTypeService, WorkTypeService, WorkflowService, SharedService, CustomToast],
+  providers: [TripService, ApiHttpService, SiteService, DistrictService, SiteTypeService, WorkTypeService, WorkflowService, SharedService, CustomToast, ForegroundService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit {
@@ -40,8 +44,10 @@ export class HomePage implements OnInit {
   message: string = '';
   isWorkCompleted: boolean = false;
   isProduction: boolean = false;
+  appStateChangeListener: PluginListenerHandle | undefined;
 
-  constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private customToast: CustomToast, private route: ActivatedRoute) {
+  constructor(private tripService: TripService, private siteService: SiteService, private sharedService: SharedService, private router: Router, private customToast: CustomToast, private route: ActivatedRoute,
+    public foregroundService: ForegroundService) {
     route.params.subscribe(val => {
       if (this.sharedService.getUserId() == null || this.sharedService.getUserId() == "") {
         this.router.navigate(['/customer-login']);
@@ -57,9 +63,23 @@ export class HomePage implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.appStateChangeListener = App.addListener(
+      'appStateChange',
+      async ({ isActive }) => {
+        if (isActive) {
+          return;
+        }
+        const taskId = await BackgroundTask.beforeExit(async () => {
+          await this.runTask();
+          BackgroundTask.finish({ taskId });
+        });
+      },
+    );
+  }
 
   async onTripStarted() {
+    this.startService();
     let latitude = "";
     let longitude = "";
     if (this.isProduction) {
@@ -154,5 +174,65 @@ export class HomePage implements OnInit {
         this.isShowTripStartBtn = true;
       }
     });
+  }
+  private async runTask(): Promise<void> {
+    console.log("Task Started");
+    const taskDurationMs = 120000000;
+    const end = new Date().getTime() + taskDurationMs;
+    while (new Date().getTime() < end) {
+      const isAppActive = await this.isAppActive();
+      console.log("Is App Active", isAppActive);
+      if (isAppActive) {
+        break;
+      }
+      console.log('Background task still active.');
+      if (this.isProduction) {
+        const coordinates = await Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000 });
+        let latitude = coordinates.coords.latitude.toString();
+        let longitude = coordinates.coords.longitude.toString();
+        let data = {
+          tripID: this.tripId,
+          latitude: latitude,
+          longitude: longitude
+        }
+        this.tripService.onLocationTrack(data);
+      }
+      await this.runInnerTask();
+    }
+  }
+
+  private async runInnerTask(): Promise<void> {
+    const taskDurationMs = 120000;
+    const end = new Date().getTime() + taskDurationMs;
+    while (new Date().getTime() < end) {
+    }
+  }
+
+  private async isAppActive(): Promise<boolean> {
+    const currentState = await App.getState();
+    return currentState.isActive;
+  }
+  startService() {
+    this.foregroundService.start('GPS Running', 'Background Service', 'drawable/fsicon');
+    setInterval(()=>{
+      this.onLocationTrack();
+    }, 300000);
+  }
+  stopService() {
+    // Disable the foreground service
+    this.foregroundService.stop();
+  }
+  async onLocationTrack() {
+    if (this.isProduction) {
+      const coordinates = await Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000 });
+      let latitude = coordinates.coords.latitude.toString();
+      let longitude = coordinates.coords.longitude.toString();
+      let data = {
+        tripID: this.tripId,
+        latitude: latitude,
+        longitude: longitude
+      }
+      this.tripService.onLocationTrack(data);
+    }
   }
 }

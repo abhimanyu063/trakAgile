@@ -6,7 +6,7 @@ import { WorkflowService } from 'src/app/services/workflow.service';
 import { WorkTypeService } from 'src/app/services/worktype.service';
 import { ActivatedRoute } from '@angular/router';
 import { CustomToast } from 'src/app/common/customtoast';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
@@ -145,8 +145,9 @@ export class WorkflowComponent implements OnInit {
     const image = await Camera.getPhoto({
       saveToGallery: true,
       quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Base64
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source:CameraSource.Camera
     });
     var imageUrl = image.webPath;
     this.imgPreview = imageUrl;
